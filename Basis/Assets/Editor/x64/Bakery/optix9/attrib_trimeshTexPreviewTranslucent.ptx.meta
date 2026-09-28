@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a4290ffe166b51342bc319188bf03fca
+timeCreated: 1765742339
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164462
+  packageName: Bakery Real-Time Preview
+  packageVersion: 1.198
+  assetPath: Assets/Editor/x64/Bakery/optix9/attrib_trimeshTexPreviewTranslucent.ptx
+  uploadId: 838816

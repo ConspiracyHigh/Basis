@@ -1,0 +1,54 @@
+#T#PoiTriplanarProjectionInjectionShading
+// BASE_SHADING_HOOK
+PoiLightingNoLoopModules(poiLight, poiFragData2, poiMesh2, poiCam, poiMods);
+PoiLightingNoLoopModules(poiLight, poiFragData3, poiMesh3, poiCam, poiMods);
+
+#T#PoiTriplanarProjectionInjectionConstellation
+// CONSTELLATION_HOOK
+applyConstellation(poiFragData2, poiMesh2, poiMods);
+applyConstellation(poiFragData3, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionGlitter
+// GLITTER_HOOK
+applyGlitter(poiFragData2, poiMesh2, poiCam, poiLight, poiMods);
+applyGlitter(poiFragData3, poiMesh3, poiCam, poiLight, poiMods);
+
+#T#PoiTriplanarProjectionInjectionDissolve
+// DISSOLVE_HOOK
+applyDissolve(poiFragData2, poiMesh2, poiMods, poiCam, poiLight);
+applyDissolve(poiFragData3, poiMesh3, poiMods, poiCam, poiLight);
+
+#T#PoiTriplanarProjectionInjectionPathing
+// PATHING_HOOK
+applyPathing(poiFragData2, poiMesh2, poiMods);
+applyPathing(poiFragData3, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionVoronoi
+// VORONOI_HOOK
+ApplyVoronoi(poiFragData2, poiMesh2, poiMods);
+ApplyVoronoi(poiFragData3, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionVideoEffects
+// VIDEO_EFFECTS_HOOK
+applyVideoEffects(poiFragData2, poiCam, poiMesh2, poiMods);
+applyVideoEffects(poiFragData3, poiCam, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionCubemap
+// CUBEMAP_HOOK
+applyCubemap(poiFragData2, poiCam, poiMesh2, poiLight, poiMods);
+applyCubemap(poiFragData3, poiCam, poiMesh3, poiLight, poiMods);
+
+#T#PoiTriplanarProjectionInjectionTruchet
+// TRUCHET_HOOK
+applyTruchet(poiFragData2, poiMesh2, poiMods);
+applyTruchet(poiFragData3, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionAudioLinkDecal
+// AUDIOLINK_DECAL_HOOK
+ApplyAudioLinkDecal(poiMesh2, poiFragData2, poiMods);
+ApplyAudioLinkDecal(poiMesh3, poiFragData3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionAudioLinkVolumeColor
+// AUDIOLINK_VOLUME_COLOR_HOOK
+ApplyAudioLinkVolumeColor(poiMesh2, poiFragData2, poiMods);
+ApplyAudioLinkVolumeColor(poiMesh3, poiFragData3, poiMods);

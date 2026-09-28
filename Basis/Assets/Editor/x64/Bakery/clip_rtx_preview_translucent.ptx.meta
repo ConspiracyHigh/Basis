@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 567481fdac248f943b8fc2c609cd865e
+timeCreated: 1757504982
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164462
+  packageName: Bakery Real-Time Preview
+  packageVersion: 1.198
+  assetPath: Assets/Editor/x64/Bakery/clip_rtx_preview_translucent.ptx
+  uploadId: 838816

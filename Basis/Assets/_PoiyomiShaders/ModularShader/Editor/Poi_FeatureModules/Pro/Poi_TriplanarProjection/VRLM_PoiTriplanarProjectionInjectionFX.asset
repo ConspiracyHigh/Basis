@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1039f25740a92fc4292bb1d94d07ad19, type: 3}
+  m_Name: VRLM_PoiTriplanarProjectionInjectionFX
+  m_EditorClassIdentifier: 
+  Id: PoiTriplanarProjectionInjectionFX
+  Name: Triplanar Projection FX Hooks
+  Version: 1.0
+  Author: SCRN
+  Description: 
+  AllowDuplicates: 0
+  ForceDuplicateLogic: 0
+  EnableProperties: []
+  Properties: []
+  ModuleDependencies: []
+  IncompatibleWith: []
+  Templates:
+  - Template: {fileID: -5315453903670672636, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - BASE_SHADING_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 8634612482739937270, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - CONSTELLATION_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -1727470021183720029, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - GLITTER_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 1871884311372899394, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - DISSOLVE_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -8731917167359544374, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - PATHING_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 2426312885319545760, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - VIDEO_EFFECTS_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 4408114614955353827, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - VORONOI_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -4398647699302705187, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - CUBEMAP_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -6855319528848500410, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - TRUCHET_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 7429963795000413564, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - AUDIOLINK_DECAL_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 6402016324395334853, guid: 6396f4a7f12a8074ab26d71eae15dce3, type: 3}
+    Keywords:
+    - AUDIOLINK_VOLUME_COLOR_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  Functions: []
+  AdditionalSerializedData: 

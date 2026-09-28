@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c1b1887563a547442a0888de25dab4fd
+timeCreated: 1765742339
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164462
+  packageName: Bakery Real-Time Preview
+  packageVersion: 1.198
+  assetPath: Assets/Editor/x64/Bakery/optix9/lmPreviewHDR.ptx
+  uploadId: 838816

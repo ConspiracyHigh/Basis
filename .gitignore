@@ -38,3 +38,31 @@ CLAUDE.md
 .wolf
 /Basis Server/benchmark-results
 /Basis/Assets/Disconnect Assets/Models
+Basis/Assets/Bakery/emptyLightingData.asset
+Basis/Assets/Sanctumtest/LightingData.asset
+Basis/Assets/Bakery/emptyLightingData.asset.meta
+Basis/Assets/Sanctumtest/LightingData.asset.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks.meta
+Basis/Assets/Editor/x64/Bakery/scripts/ftLightingDataGen.cs
+Basis/Assets/Disconnect Assets/Disconnect/LightingData.asset
+Basis/Assets/Editor/x64/Bakery/scripts/ftLightingDataGen.cs.meta
+Basis/Assets/Disconnect Assets/Disconnect/LightingData.asset.meta
+Basis/Assets/IgniteCoders/Simple Water Shader/Demo/LightingData.asset
+Basis/Assets/IgniteCoders/Simple Water Shader/Demo/LightingData.asset.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part0.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part1.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part2.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part3.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part0.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part1.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part2.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part3.bin
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part0.bin.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part1.bin.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part2.bin.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_5_6_part3.bin.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part0.bin.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part1.bin.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part2.bin.meta
+Basis/Assets/Editor/x64/Bakery/lightingDataChunks/LightingData_2017_1_part3.bin.meta
+Basis/Assets/Editor/x64/Bakery/cudnn64_7.dll

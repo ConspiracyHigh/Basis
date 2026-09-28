@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1039f25740a92fc4292bb1d94d07ad19, type: 3}
+  m_Name: VRLM_PoiTriplanarProjectionInjectionNormals
+  m_EditorClassIdentifier: 
+  Id: PoiTriplanarProjectionInjectionNormals
+  Name: Triplanar Projection Normals Hooks
+  Version: 1.0
+  Author: SCRN
+  Description: 
+  AllowDuplicates: 0
+  ForceDuplicateLogic: 0
+  EnableProperties: []
+  Properties: []
+  ModuleDependencies: []
+  IncompatibleWith: []
+  Templates:
+  - Template: {fileID: -6733174702958658513, guid: 995a13f1aee5e804a9a73aa6188e2ff1, type: 3}
+    Keywords:
+    - MAIN_NORMAL_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 6183021014636208669, guid: 995a13f1aee5e804a9a73aa6188e2ff1, type: 3}
+    Keywords:
+    - MAIN_NORMAL2_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 7611511981856896723, guid: 995a13f1aee5e804a9a73aa6188e2ff1, type: 3}
+    Keywords:
+    - DETAIL_NORMAL_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 6011162778935000618, guid: 995a13f1aee5e804a9a73aa6188e2ff1, type: 3}
+    Keywords:
+    - RGBNORMALS_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  Functions: []
+  AdditionalSerializedData: 

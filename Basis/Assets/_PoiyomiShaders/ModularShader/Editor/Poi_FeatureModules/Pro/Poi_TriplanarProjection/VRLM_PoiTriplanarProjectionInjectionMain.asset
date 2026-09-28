@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1039f25740a92fc4292bb1d94d07ad19, type: 3}
+  m_Name: VRLM_PoiTriplanarProjectionInjectionMain
+  m_EditorClassIdentifier: 
+  Id: PoiTriplanarProjectionInjection
+  Name: Triplanar Projection Hooks
+  Version: 1.0
+  Author: SCRN
+  Description: 
+  AllowDuplicates: 0
+  ForceDuplicateLogic: 0
+  EnableProperties: []
+  Properties: []
+  ModuleDependencies: []
+  IncompatibleWith: []
+  Templates:
+  - Template: {fileID: -840862425802036344, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - MAIN_TEXTURE_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 1171110358710354333, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - MAIN_COLOR_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -2282311197266118510, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - ALPHA_OPTIONS_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -3097111218914190341, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - DETAIL_COLOR_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 5928070664479687437, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - SKIN_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 2601249702023333161, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - BACKFACE_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 4253623007120206982, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - VIDEO_EFFECTS_MAIN_TEX_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -6788964672210619110, guid: 442efd7b1e962814b838e8a519b89fbd, type: 3}
+    Keywords:
+    - RGBMASK_HOOK
+    NeedsVariant: 0
+    Queue: 1000
+  Functions: []
+  AdditionalSerializedData: 

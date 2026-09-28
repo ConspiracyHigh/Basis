@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1039f25740a92fc4292bb1d94d07ad19, type: 3}
+  m_Name: VRLM_PoiTriplanarProjection
+  m_EditorClassIdentifier: 
+  Id: PoiTriplanarProjection
+  Name: Triplanar Projection
+  Version: 1.0
+  Author: SCRN
+  Description: 
+  AllowDuplicates: 0
+  ForceDuplicateLogic: 0
+  EnableProperties: []
+  Properties: []
+  ModuleDependencies: []
+  IncompatibleWith: []
+  Templates:
+  - Template: {fileID: 1211839639648186269, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - SHADER_PROPERTIES
+    NeedsVariant: 0
+    Queue: -95
+  - Template: {fileID: -5454065278823643109, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - BASE_PASS_KEYWORDS
+    - SHADOW_PASS_KEYWORDS
+    NeedsVariant: 0
+    Queue: 0
+  - Template: {fileID: -4067376125529907779, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - BASE_PROPERTY_VARIABLES
+    - SHADOW_PROPERTY_VARIABLES
+    NeedsVariant: 0
+    Queue: 0
+  - Template: {fileID: -9050897445393315403, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - BASE_PROPERTY_VARIABLES_EXPOSED
+    - ADD_PROPERTY_VARIABLES_EXPOSED
+    - SHADOW_PROPERTY_VARIABLES_EXPOSED
+    NeedsVariant: 0
+    Queue: 0
+  - Template: {fileID: 2374999880361170030, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - FRAGMENT_BASE_FUNCTIONS
+    NeedsVariant: 0
+    Queue: 0
+  - Template: {fileID: 5775908873958559455, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - POI_MESH_PROPERTIES
+    - POI_FRAGDATA_PROPERTIES
+    NeedsVariant: 0
+    Queue: 0
+  - Template: {fileID: 7659295390251776135, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - GLOBAL_STRUCTS_ADDITIONAL
+    NeedsVariant: 0
+    Queue: 0
+  - Template: {fileID: 5490104902772852145, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - FRAGMENT_SHADOW_FIRSTLINE
+    - FRAGMENT_ADD_DECLARATIONS
+    NeedsVariant: 0
+    Queue: 0
+  - Template: {fileID: -2464168087683656012, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - FRAGMENT_DECLARATIONS_ADDITIONAL
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -5694952460636225503, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - MESH_DATA_POST_INIT
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -7816331916750350148, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - MESH_DATA_POST_INIT
+    NeedsVariant: 0
+    Queue: 1001
+  - Template: {fileID: -3461961266582431559, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - TANGENT_NORMAL_INJECTION
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: 552952815858203031, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - TANGENT_NORMAL_INJECTION_END
+    NeedsVariant: 0
+    Queue: 1000
+  - Template: {fileID: -7973801053161131183, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - FRAGMENT_BASE_COLOR
+    NeedsVariant: 0
+    Queue: 49
+  - Template: {fileID: 989763851043201515, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - FRAGMENT_BASE_COLOR
+    NeedsVariant: 0
+    Queue: 51
+  - Template: {fileID: 4727202738128693493, guid: 7277b3bd54e711743ace0bbf8a583004, type: 3}
+    Keywords:
+    - FRAGMENT_BASE_COLOR_LATE
+    NeedsVariant: 0
+    Queue: 1000
+  Functions: []
+  AdditionalSerializedData: 

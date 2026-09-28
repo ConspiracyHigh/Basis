@@ -273,7 +273,7 @@ PlayerSettings:
   useCustomGradlePropertiesTemplate: 0
   useCustomGradleSettingsTemplate: 0
   useCustomProguardFile: 0
-  AndroidTargetArchitectures: 2
+  AndroidTargetArchitectures: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: C:/Users/doola/OneDrive/Documents/Github/Basis Keys/BasisQuest.keystore
@@ -499,6 +499,43 @@ PlayerSettings:
       m_Height: 1024
       m_Kind: 4
       m_SubKind: App Store
+  - m_BuildTarget: tvOS
+    m_Icons:
+    - m_Textures: []
+      m_Width: 1280
+      m_Height: 768
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures: []
+      m_Width: 800
+      m_Height: 480
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures: []
+      m_Width: 400
+      m_Height: 240
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures: []
+      m_Width: 4640
+      m_Height: 1440
+      m_Kind: 1
+      m_SubKind: 
+    - m_Textures: []
+      m_Width: 2320
+      m_Height: 720
+      m_Kind: 1
+      m_SubKind: 
+    - m_Textures: []
+      m_Width: 3840
+      m_Height: 1440
+      m_Kind: 1
+      m_SubKind: 
+    - m_Textures: []
+      m_Width: 1920
+      m_Height: 720
+      m_Kind: 1
+      m_SubKind: 
   m_BuildTargetBatching:
   - m_BuildTarget: Standalone
     m_StaticBatching: 0
@@ -839,14 +876,14 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: SETTINGS_MANAGER_UNIVERSAL;STEAMAUDIO_ENABLED;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;AUDIOLINK;AUDIOLINK_V1;BASIS_FRAMEWORK_EXISTS;LITENETLIB_SPANS;Basis_VOLUMETRIC_SUPPORTED
+    Android: SETTINGS_MANAGER_UNIVERSAL;STEAMAUDIO_ENABLED;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;AUDIOLINK;AUDIOLINK_V1;BASIS_FRAMEWORK_EXISTS;LITENETLIB_SPANS;Basis_VOLUMETRIC_SUPPORTED;BAKERY_INCLUDED;BAKERY_NOREIMPORT
     EmbeddedLinux: 
     LinuxHeadlessSimulation: 
     Nintendo Switch: 
     PS4: 
     QNX: 
     Server: UNITY_BUNDLEUNLOAD;
-    Standalone: STEAMAUDIO_ENABLED;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;BASIS_OPENVR_SUPPORTED;AUDIOLINK;AUDIOLINK_V1;SETTINGS_MANAGER_UNIVERSAL;BASIS_FRAMEWORK_EXISTS;LITENETLIB_SPANS;Basis_VOLUMETRIC_SUPPORTED
+    Standalone: STEAMAUDIO_ENABLED;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;BASIS_OPENVR_SUPPORTED;AUDIOLINK;AUDIOLINK_V1;SETTINGS_MANAGER_UNIVERSAL;BASIS_FRAMEWORK_EXISTS;LITENETLIB_SPANS;Basis_VOLUMETRIC_SUPPORTED;TPS;BAKERY_INCLUDED;BAKERY_NOREIMPORT
     WebGL: STEAMAUDIO_ENABLED
     Windows Store Apps: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
     XboxOne: 
@@ -855,9 +892,9 @@ PlayerSettings:
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
-    Android: 1
+    Android: 0
     Server: 0
-    Standalone: 1
+    Standalone: 0
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   il2cppLTOMode: {}

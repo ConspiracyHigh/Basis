@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a8a6da347db46c241b4c1371e74c9399
+timeCreated: 1771885162
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.985
+  assetPath: Assets/Editor/x64/Bakery/optix9/clip_rtxInst.ptx
+  uploadId: 999818

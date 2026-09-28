@@ -1,0 +1,24 @@
+{
+  "name": "com.poiyomi.thryeditor",
+  "displayName": "ThryEditor",
+  "version": "2.73.9",
+  "description": "General Unity Shader Inspector/Editor for Poiyomi Shaders.",
+  "author": {
+    "name": "Thryrallo",
+    "url": "https://www.poiyomi.com"
+  },
+  "gitDependencies": {},
+  "vpmDependencies": {},
+  "legacyFolders": {
+    "Assets\\_PoiyomiShaders\\Scripts\\ThryEditor": "50db53e135bda584495e8da68bb28e8d"
+  },
+  "legacyFiles": {
+    "Assets\\_PoiyomiShaders\\Scripts\\Editor\\ButtonVector.cs": "384236c783ed181459334431beb0f971",
+    "Assets\\_PoiyomiShaders\\Scripts\\Editor\\InvertedSliderDrawer.cs": "575bd1334554af5468820b6d6334a891",
+    "Assets\\_PoiyomiShaders\\Scripts\\Editor\\ThryMultiFloatButtonsDrawer.cs": "f3df644effce7f34282210a275f7f442",
+    "Assets\\_PoiyomiShaders\\Scripts\\Editor\\ThryMultiFloatHeaderDrawer.cs": "55b996104b3677141bd2bdd661afd304"
+  },
+  "hideInEditor": false,
+  "license": "MIT",
+  "unity": "2021.3"
+}

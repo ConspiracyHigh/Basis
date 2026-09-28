@@ -37,5 +37,5 @@ MonoBehaviour:
   BuildAssetBundleOptions: 256
   AssetBundleDirectory: ./AssetBundles
   AssetBundleUnCombined: ./AssetCache
-  selectedTargets: 1300000018000000020000000d00000009000000
+  selectedTargets: 13000000180000000d000000
   RebakeOcclusionCullingInThese: 14000000090000000d000000

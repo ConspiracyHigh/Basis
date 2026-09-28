@@ -1,0 +1,829 @@
+#T#PoiLavaLampProperties
+//ifex _InternalWaterEnable==0
+    [HideInInspector] m_start_PoiLavaLamp (" Lava Lamp (Experimental)--{reference_property:_InternalWaterEnable,button_author:{text:normalizedcrow,action:{type:URL,data:https://github.com/normalizedcrow},hover:GitHub}},button_help:{text:Tutorial,action:{type:URL,data:https://www.poiyomi.com/raymarching/lava-lamp},hover:Documentation}}", Float) = 0
+    [HideInInspector][ThryToggle(POI_INTERNAL_WATER)] _InternalWaterEnable ("Enable", Float) = 0
+
+    // Volume bounds and bind data live in the shared Raymarching Data module, above this section.
+
+    [HideInInspector] s_start_LavaLampRaymarching ("Raymarching--{persistent_expand:true,default_expand:true}", Float) = 1
+    [PowerSlider(2.72)] _LavaScale0 ("Scale", Range(0.001, 2.0)) = 0.056
+    _LavaPadding ("Padding", Range(0.01, 0.2)) = 0.06
+    [IntRange] _LavaRaymarchSteps ("Step Count", Range(8, 100)) = 64
+    [HideInInspector] s_end_LavaLampRaymarching ("", Float) = 0
+
+    [HideInInspector] s_start_LavaLampRefraction ("Refraction--{persistent_expand:true,default_expand:false}", Float) = 0
+    _LavaLampRefractiveIndex ("Refractive Index", Range(1.0, 1.5)) = 1.1
+    _LavaLampRefractionNormalStrength ("Normal Strength", Range(0.0, 1.0)) = 1.0
+    [HideInInspector] s_end_LavaLampRefraction ("", Float) = 0
+
+    [HideInInspector] s_start_LavaLampMask ("Mask--{persistent_expand:true,default_expand:false}", Float) = 0
+    _LavaLampMask ("Mask--{reference_properties:[_LavaLampMaskPan, _LavaLampMaskUV]}", 2D) = "white" { }
+    [ThryHideInInspector][Vector2] _LavaLampMaskPan ("Panning", Vector) = (0, 0, 0, 0)
+    [ThryHideInInspector][ThryWideEnum(UV0, 0, UV1, 1, UV2, 2, UV3, 3, Panosphere, 4, World Pos, 5, Local Pos, 8, Polar UV, 6, Distorted UV, 7, Matcap, 9, Screen Space, 10)] _LavaLampMaskUV ("UV", Int) = 0
+    [HideInInspector] s_end_LavaLampMask ("", Float) = 0
+
+    [HideInInspector] s_start_LavaLampBlobs ("Lava Blobs--{persistent_expand:true,default_expand:true}", Float) = 1
+    [DoNotAnimate][ThryWideEnum(Blob, 0, X And O, 1, Stars, 2, Hearts, 3)] _LavaShape ("Shape", Float) = 0
+    _LavaSmoothingFactor ("Smoothing", Range(0.01, 0.5)) = 0.12
+    _LavaVerticalSeparation ("Vertical Spacing", Range(1.0, 5.0)) = 2.0
+    _LavaSkipChance ("Invisible Blob Chance", Range(0.0, 1.0)) = 0.6
+    _LavaMinSize ("Min Size", Range(0.0, 1.0)) = 0.5
+    _LavaMaxSize ("Max Size", Range(0.0, 1.0)) = 1.0
+    _LavaSizeDistribution ("Size Distribution", Range(-3.0, 3.0)) = 0.0
+    _LavaMinSpeed ("Min Speed", Range(0.0, 1.0)) = 0.05
+    _LavaMaxSpeed ("Max Speed", Range(0.0, 1.0)) = 0.4
+    _LavaMinDriftSpeed ("Min Drift Speed", Range(0.0, 5.0)) = 0.5
+    _LavaMaxDriftSpeed ("Max Drift Speed", Range(0.0, 5.0)) = 2.0
+    _LavaReflectiveness ("Reflectiveness", Range(0.0, 1.0)) = 0.15
+    _LavaPerceptualRoughness ("Roughness", Range(0.0, 1.0)) = 0.25
+    _LavaSubsurface ("Translucency", Range(0.0, 1.0)) = 1.0
+    [HideInInspector] s_end_LavaLampBlobs ("", Float) = 0
+
+    [HideInInspector] s_start_LavaLampMatcap ("Matcap--{reference_property:_LavaLampMatcapEnable,persistent_expand:true,default_expand:false}", Float) = 0
+    [HideInInspector][ThryToggleUI] _LavaLampMatcapEnable ("Enable", Float) = 0
+    [sRGBWarning(true)][NoScaleOffset] _LavaLampMatcap ("Matcap--{reference_properties:[_LavaLampMatcapBorder]}", 2D) = "white" { }
+    [ThryHideInInspector] _LavaLampMatcapBorder ("Border", Range(0.0, 5.0)) = 0.5
+    _LavaLampMatcapIntensity ("Intensity", Range(0.0, 5.0)) = 1.0
+    _LavaLampMatcapAlpha ("Alpha", Range(0.0, 1.0)) = 1.0
+    [ThryWideEnum(Replace, 0, Darken, 1, Multiply, 2, Lighten, 5, Screen, 6, Subtract, 7, Add, 8, Overlay, 9, Mixed, 20)] _LavaLampMatcapBlendMode ("Blend Mode", Int) = 8
+    [HideInInspector] s_end_LavaLampMatcap ("", Float) = 0
+
+    [HideInInspector] s_start_LavaLampRegion ("Region--{persistent_expand:true,default_expand:true}", Float) = 1
+    _LavaTopReservoirHeight0 ("Top Reservoir Height", Float) = 1.0
+    _LavaBottomReservoirHeight0 ("Bottom Reservoir Height", Float) = 0.0
+    _LavaCoreColor0 ("Lava Color--{reference_property:_LavaCoreColor0ThemeIndex}", Color) = (1.0, 1.0, 1.0, 1.0)
+    [ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _LavaCoreColor0ThemeIndex ("Color Theme Index", Int) = 0
+    _LavaWaterHazeColor0 ("Haze Color--{reference_property:_LavaWaterHazeColor0ThemeIndex}", Color) = (1.0, 1.0, 1.0, 1.0)
+    [ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _LavaWaterHazeColor0ThemeIndex ("Color Theme Index", Int) = 0
+    [PowerSlider(2.72)] _LavaWaterHazeStrength0 ("Haze Density", Range(0.0, 50.0)) = 10.0
+    _LavaWaterTintColor0 ("Tint Color", Color) = (1.0, 1.0, 1.0, 1.0)
+    [PowerSlider(2.72)] _LavaWaterTintStrength0 ("Tint Strength", Range(1.0, 100.0)) = 1.0
+    _LavaTopLightColor0 ("Top Color--{reference_property:_LavaTopLightColor0ThemeIndex}", Color) = (1.0, 0.5, 0.0, 1.0)
+    [ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _LavaTopLightColor0ThemeIndex ("Color Theme Index", Int) = 0
+    _LavaTopLightBrightness0 ("Top Emission", Range(0.0, 10.0)) = 0.5
+    _LavaBottomLightColor0 ("Bottom Color--{reference_property:_LavaBottomLightColor0ThemeIndex}", Color) = (0.0, 0.5, 1.0, 1.0)
+    [ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _LavaBottomLightColor0ThemeIndex ("Color Theme Index", Int) = 0
+    _LavaBottomLightBrightness0 ("Bottom Emission", Range(0.0, 10.0)) = 0.5
+    [PowerSlider(2.72)] _LavaLightFalloff0 ("Color Range", Range(0.0, 1.0)) = 0.8
+    _LavaLampAlpha ("Alpha", Range(0, 1)) = 1
+    _LavaFlowDirection0 ("Flow Direction", Vector) = (0.0, 1.0, 0.0, 0.0)
+    [HideInInspector] s_end_LavaLampRegion ("", Float) = 0
+
+    [HideInInspector] s_start_LavaLampAudioLink ("Audio Link ♫--{reference_property:_LavaAudioLinkEnable,persistent_expand:true,default_expand:false,condition_showS:(_EnableAudioLink==1)}", Float) = 0
+    [ThryHideInInspector][ToggleUI] _LavaAudioLinkEnable ("Enable", Float) = 0
+    [Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _LavaAudioLinkBand ("Band", Int) = 0
+    [VectorLabel(Min, Max)] _LavaAudioLinkBlobSize ("Blob Pulse", Vector) = (1, 1, 0, 0)
+    [VectorLabel(Min, Max)] _LavaAudioLinkFlowSpeed ("Flow Speed", Vector) = (1, 1, 0, 0)
+    [VectorLabel(Min, Max)] _LavaAudioLinkEmission ("Emission", Vector) = (1, 1, 0, 0)
+    [HideInInspector] s_end_LavaLampAudioLink ("", Float) = 0
+
+    [HideInInspector] m_end_PoiLavaLamp ("", Float) = 0
+//endex
+
+#T#PoiLavaLampKeywords
+//ifex _InternalWaterEnable==0
+    #pragma shader_feature_local POI_INTERNAL_WATER
+    //#pragma shader_feature_local _LAVASHAPE_BLOB
+    #ifdef POI_INTERNAL_WATER
+        // Pulls in the baked SDF volume and mesh bind data from the Raymarching Data module.
+        #define POI_RAYMARCHING_DATA
+    #endif
+//endex
+
+#T#PoiLavaLampVariables
+//ifex _InternalWaterEnable==0
+    #ifdef POI_INTERNAL_WATER
+        #if defined(PROP_LAVALAMPMASK) || !defined(OPTIMIZER_ENABLED)
+        Texture2D _LavaLampMask;
+        #endif
+        #if defined(PROP_LAVALAMPMATCAP) || !defined(OPTIMIZER_ENABLED)
+        Texture2D _LavaLampMatcap;
+        #endif
+    #endif
+//endex
+
+#T#PoiLavaLampVariablesExposed
+//ifex _InternalWaterEnable==0
+    #ifdef POI_INTERNAL_WATER
+        half _LavaLampAlpha;
+        float _LavaLampRefractiveIndex;
+        half _LavaLampRefractionNormalStrength;
+        float _LavaShape;
+        float _LavaPadding;
+        float _LavaSmoothingFactor;
+        float _LavaVerticalSeparation;
+        float _LavaSkipChance;
+        float _LavaMinSize;
+        float _LavaMaxSize;
+        float _LavaSizeDistribution;
+        float _LavaMinSpeed;
+        float _LavaMaxSpeed;
+        float _LavaMinDriftSpeed;
+        float _LavaMaxDriftSpeed;
+        half _LavaReflectiveness;
+        half _LavaPerceptualRoughness;
+        half _LavaSubsurface;
+        int _LavaRaymarchSteps;
+        float _LavaAudioLinkEnable;
+        int _LavaAudioLinkBand;
+        float2 _LavaAudioLinkBlobSize;
+        float2 _LavaAudioLinkFlowSpeed;
+        half2 _LavaAudioLinkEmission;
+        float _LavaScale0;
+        float _LavaTopReservoirHeight0;
+        float _LavaBottomReservoirHeight0;
+        half4 _LavaCoreColor0;
+        float _LavaCoreColor0ThemeIndex;
+        half4 _LavaWaterHazeColor0;
+        float _LavaWaterHazeColor0ThemeIndex;
+        half _LavaWaterHazeStrength0;
+        half4 _LavaWaterTintColor0;
+        half _LavaWaterTintStrength0;
+        half4 _LavaTopLightColor0;
+        float _LavaTopLightColor0ThemeIndex;
+        half _LavaTopLightBrightness0;
+        half4 _LavaBottomLightColor0;
+        float _LavaBottomLightColor0ThemeIndex;
+        half _LavaBottomLightBrightness0;
+        half _LavaLightFalloff0;
+        float4 _LavaFlowDirection0;
+        #if defined(PROP_LAVALAMPMASK) || !defined(OPTIMIZER_ENABLED)
+        float4 _LavaLampMask_ST;
+        float2 _LavaLampMaskPan;
+        float _LavaLampMaskUV;
+        #endif
+        float _LavaLampMatcapEnable;
+        float _LavaLampMatcapBorder;
+        half _LavaLampMatcapIntensity;
+        half _LavaLampMatcapAlpha;
+        int _LavaLampMatcapBlendMode;
+    #endif
+//endex
+
+#T#PoiLavaLampFunctions
+//ifex _InternalWaterEnable==0
+    #ifdef POI_INTERNAL_WATER
+
+        // normalizedcrow/LavaLamp core (MIT License), single subregion
+
+        static const float3 cHaltonSequence[4] = { float3(0.5, 0.0, 0.333), float3(0.25, 0.0, 0.666), float3(0.75, 0.0, 0.111), float3(0.125, 0.0, 0.444) };
+        static const float cBlobLayerJitterScale = 0.6;
+        static const int cLavaRaymarchMaxSteps = 100;
+        static const float cLavaRaymarchMinStepLength = 0.01;
+        static const float cLavaSurfaceOffset = 0.001;
+        static const float cNormalEPS = 0.01;
+        static const float cTouchingSideBlendSize = 0.01;
+
+        struct PoiLavaSurfaceParameters { float3 position; half3 normal; float thickness; half touchingSideFactor; };
+        struct PoiLavaShapeParameters { float scale; float topReservoirHeight; float bottomReservoirHeight; float3 flowDirection; float blobScale; float animationTime; float sizeDistributionPower; float minBlobRadius; float maxBlobRadius; };
+        struct PoiLavaMaterialParameters { half3 coreColor; half3 waterHazeColor; half waterHazeStrength; half3 waterTintColor; half waterTintStrength; half3 topLightColor; half topLightBrightness; half3 bottomLightColor; half bottomLightBrightness; half lightFalloff; float topReservoirHeight; float bottomReservoirHeight; half emissionScale; };
+        struct PoiLavaShading { half3 reflectance; half3 emission; };
+        struct PoiLavaComposite { half3 reflectance; half3 emission; half alpha; };
+
+        PoiLavaShapeParameters PoiGetLavaShapeParameters(float audioLinkValue)
+        {
+            PoiLavaShapeParameters p;
+            p.scale = _LavaScale0; p.topReservoirHeight = _LavaTopReservoirHeight0;
+            p.bottomReservoirHeight = _LavaBottomReservoirHeight0; p.flowDirection = _LavaFlowDirection0.xyz;
+            p.blobScale = lerp(_LavaAudioLinkBlobSize.x, _LavaAudioLinkBlobSize.y, audioLinkValue);
+            p.animationTime = POI_TIME.y * lerp(_LavaAudioLinkFlowSpeed.x, _LavaAudioLinkFlowSpeed.y, audioLinkValue);
+            p.sizeDistributionPower = exp(-_LavaSizeDistribution);
+            p.maxBlobRadius = 0.5 - _LavaPadding;
+            p.minBlobRadius = min(_LavaSmoothingFactor * 0.5, p.maxBlobRadius);
+            return p;
+        }
+
+        PoiLavaMaterialParameters PoiGetLavaMaterialParameters(in PoiMods poiMods)
+        {
+            PoiLavaMaterialParameters p;
+            p.coreColor = poiThemeColor(poiMods, _LavaCoreColor0.xyz, _LavaCoreColor0ThemeIndex);
+            p.waterHazeColor = poiThemeColor(poiMods, _LavaWaterHazeColor0.xyz, _LavaWaterHazeColor0ThemeIndex); p.waterHazeStrength = _LavaWaterHazeStrength0;
+            p.waterTintColor = _LavaWaterTintColor0.xyz; p.waterTintStrength = _LavaWaterTintStrength0;
+            p.topLightColor = poiThemeColor(poiMods, _LavaTopLightColor0.xyz, _LavaTopLightColor0ThemeIndex);
+            p.topLightBrightness = _LavaTopLightBrightness0;
+            p.bottomLightColor = poiThemeColor(poiMods, _LavaBottomLightColor0.xyz, _LavaBottomLightColor0ThemeIndex);
+            p.bottomLightBrightness = _LavaBottomLightBrightness0;
+            p.lightFalloff = _LavaLightFalloff0;
+            p.topReservoirHeight = _LavaTopReservoirHeight0;
+            p.bottomReservoirHeight = _LavaBottomReservoirHeight0;
+            p.emissionScale = 1.0;
+            return p;
+        }
+
+        inline half3 PoiGGXCookTorrance(half3 surfaceNormal, half3 viewDirection, half3 lightDirection, half roughness, half reflectiveness)
+        {
+            half3 viewToward = -viewDirection;
+            half3 halfNormal = normalize(viewToward + lightDirection);
+            half nDotL = saturate(dot(surfaceNormal, lightDirection));
+            half nDotV = saturate(dot(surfaceNormal, viewToward));
+            half nDotH = saturate(dot(surfaceNormal, halfNormal));
+            half lDotH = saturate(dot(lightDirection, halfNormal));
+            if (nDotL <= 0.0) return 0.0;
+            half lambdaV = nDotL * (nDotV * (1.0 - roughness) + roughness);
+            half lambdaL = nDotV * (nDotL * (1.0 - roughness) + roughness);
+            half visibility = 0.5 / (lambdaV + lambdaL + 1e-5);
+            half a = nDotH * roughness;
+            half k = roughness / (1.0 - nDotH * nDotH + a * a + 1e-5);
+            half specularTerm = visibility * k * k * INV_PI;
+            specularTerm = max(0.0, specularTerm * max(0.00001, nDotL));
+            half t = 1.0 - lDotH;
+            t = t * t * t * t * t;
+            half3 fresnel = reflectiveness + (1.0 - reflectiveness) * t;
+            return specularTerm * fresnel;
+        }
+
+        float PoiRandomNormalized(inout uint seed)
+        {
+            seed ^= seed >> 16; seed *= 0xa812d533;
+            seed ^= seed >> 15; seed *= 0xb278e4ad;
+            seed ^= seed >> 17;
+            return seed / 4294967295.0;
+        }
+
+        float PoiLavaSmoothMin(float distA, float distB, bool clampToOriginal)
+        {
+            distA += clampToOriginal ? _LavaSmoothingFactor / 4.0 : 0.0;
+            distB += clampToOriginal ? _LavaSmoothingFactor / 4.0 : 0.0;
+            float bf = max(0.0, _LavaSmoothingFactor - abs(distA - distB)) / _LavaSmoothingFactor;
+            return min(distA, distB) - (_LavaSmoothingFactor * bf * bf / 4.0);
+        }
+
+        // Non-blob SDF helpers are omitted from locked blob-only shaders.
+        //ifex _LavaShape==0
+        float PoiLavaBoxSDF(float3 p, float3 halfExtents)
+        {
+            float3 q = abs(p) - halfExtents;
+            return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
+        }
+
+        float PoiLavaXSDF(float3 p, float radius)
+        {
+            const float invSqrtTwo = 0.70710678;
+            float2 diagonalA = float2(p.x + p.y, p.y - p.x) * invSqrtTwo;
+            float2 diagonalB = float2(p.x - p.y, p.x + p.y) * invSqrtTwo;
+            float3 halfExtents = radius * float3(0.85, 0.18, 0.25);
+            float a = PoiLavaBoxSDF(float3(diagonalA, p.z), halfExtents);
+            float b = PoiLavaBoxSDF(float3(diagonalB, p.z), halfExtents);
+            return min(a, b);
+        }
+
+        float PoiLavaOSDF(float3 p, float radius)
+        {
+            float2 ring = float2(length(p.xy) - radius * 0.62, p.z);
+            return length(ring) - radius * 0.25;
+        }
+
+        float PoiLavaStarSDF(float3 p, float radius)
+        {
+            // 2D five-pointed star (Inigo Quilez sdStar5) extruded into a thin slab.
+            const float2 k1 = float2(0.809016994375, -0.587785252292);
+            const float2 k2 = float2(-k1.x, k1.y);
+            float outerRadius = radius * 0.92;
+            const float innerFactor = 0.42;
+            float2 q = p.xy;
+            q.x = abs(q.x);
+            q -= 2.0 * max(dot(k1, q), 0.0) * k1;
+            q -= 2.0 * max(dot(k2, q), 0.0) * k2;
+            q.x = abs(q.x);
+            q.y -= outerRadius;
+            float2 ba = innerFactor * float2(-k1.y, k1.x) - float2(0.0, 1.0);
+            float h = clamp(dot(q, ba) / dot(ba, ba), 0.0, outerRadius);
+            float star2D = length(q - ba * h) * sign(q.y * ba.x - q.x * ba.y);
+            float2 slab = float2(star2D, abs(p.z) - radius * 0.28);
+            return min(max(slab.x, slab.y), 0.0) + length(max(slab, 0.0));
+        }
+
+        float PoiLavaHeartSDF(float3 p, float radius)
+        {
+            // 2D heart (Inigo Quilez sdHeart) extruded into a thin slab.
+            // Native heart: cusp at bottom, lobes near y=1; recenter and scale to the blob radius.
+            float scale = radius * 1.35;
+            float2 q = p.xy / scale;
+            q.y += 0.55;
+            q.x = abs(q.x);
+            float heart2D;
+            if (q.y + q.x > 1.0)
+            {
+                float2 d = q - float2(0.25, 0.75);
+                heart2D = length(d) - 0.35355339; // sqrt(2) / 4
+            }
+            else
+            {
+                float2 d0 = q - float2(0.0, 1.0);
+                float2 d1 = q - 0.5 * max(q.x + q.y, 0.0);
+                heart2D = sqrt(min(dot(d0, d0), dot(d1, d1))) * sign(q.x - q.y);
+            }
+            heart2D *= scale;
+            float2 slab = float2(heart2D, abs(p.z) - radius * 0.26);
+            return min(max(slab.x, slab.y), 0.0) + length(max(slab, 0.0));
+        }
+
+        float3 PoiRotateLavaElement(float3 p, float2 azimuthDirection, float elevation, uint seed)
+        {
+            float horizontal = sqrt(saturate(1.0 - elevation * elevation));
+            float3 normal = float3(azimuthDirection.x * horizontal, elevation, azimuthDirection.y * horizontal);
+            float3 referenceAxis = abs(normal.y) < 0.999 ? float3(0.0, 1.0, 0.0) : float3(1.0, 0.0, 0.0);
+            float3 tangent = normalize(cross(referenceAxis, normal));
+            float3 bitangent = cross(normal, tangent);
+
+            uint rollSeed = seed ^ 0x68bc21ebu;
+            float roll = PoiRandomNormalized(rollSeed) * 2.0 * UNITY_PI;
+            float rollDirection = (rollSeed & 1u) == 0u ? -1.0 : 1.0;
+            float rollSpeed = lerp(0, 0.2, PoiRandomNormalized(rollSeed)) * rollDirection;
+            roll += POI_TIME.y * rollSpeed * 2.0 * UNITY_PI;
+            float rollSin;
+            float rollCos;
+            sincos(roll, rollSin, rollCos);
+            float3 rotatedTangent = tangent * rollCos + bitangent * rollSin;
+            float3 rotatedBitangent = bitangent * rollCos - tangent * rollSin;
+            return float3(dot(p, rotatedTangent), dot(p, rotatedBitangent), dot(p, normal));
+        }
+        //endex
+
+        float PoiGetLavaElementSDF(float3 relativePosition, float radius, uint seed, float2 azimuthDirection, float elevation)
+        {
+            //ifex _LavaShape!=0
+            [branch]
+            if (_LavaShape == 0)
+            {
+                return length(relativePosition) - radius;
+            }
+            //endex
+
+            //ifex _LavaShape==0
+            [branch]
+            if (_LavaShape != 0)
+            {
+                float3 rotatedPosition = PoiRotateLavaElement(relativePosition, azimuthDirection, elevation, seed);
+                [branch]
+                if (_LavaShape == 1) // X And O
+                {
+                    uint shapeSeed = seed ^ 0xa511e9b3u;
+                    return PoiRandomNormalized(shapeSeed) < 0.5
+                        ? PoiLavaXSDF(rotatedPosition, radius)
+                        : PoiLavaOSDF(rotatedPosition, radius);
+                }
+                else if (_LavaShape == 2) // Stars
+                    return PoiLavaStarSDF(rotatedPosition, radius);
+                else // Hearts (3)
+                    return PoiLavaHeartSDF(rotatedPosition, radius);
+            }
+            //endex
+
+            return length(relativePosition) - radius;
+        }
+
+        float2 PoiLavaSmoothMinBlend(float2 a, float2 b, bool clampToOriginal)
+        {
+            a.x += clampToOriginal ? _LavaSmoothingFactor / 4.0 : 0.0;
+            b.x += clampToOriginal ? _LavaSmoothingFactor / 4.0 : 0.0;
+            float bf = max(0.0, _LavaSmoothingFactor - abs(a.x - b.x)) / _LavaSmoothingFactor;
+            float blendedDist = min(a.x, b.x) - (_LavaSmoothingFactor * bf * bf / 4.0);
+            float vb = bf * bf / 2.0;
+            vb = a.x < b.x ? vb : 1.0 - vb;
+            return float2(blendedDist, lerp(a.y, b.y, vb));
+        }
+
+        float3x3 PoiGetFlowRotationMatrix(float3 flowDir)
+        {
+            float fl = length(flowDir);
+            flowDir = fl > 0.0001 ? flowDir / fl : float3(0, 1, 0);
+            float3 hDir = cross(flowDir, float3(0, 1, 0));
+            float hl = length(hDir);
+            hDir = hl > 0.0001 ? hDir / hl : float3(1, 0, 0);
+            return float3x3(hDir, flowDir, normalize(cross(flowDir, hDir)));
+        }
+
+        float2 PoiGetLavaLightAttenuations(float height, PoiLavaMaterialParameters mp)
+        {
+            float span = max(mp.topReservoirHeight - mp.bottomReservoirHeight, 1e-5);
+            float2 d = max(0.0, float2(height - mp.bottomReservoirHeight, mp.topReservoirHeight - height));
+            return saturate(1.0 - d / (span * max(mp.lightFalloff, 0.0001)));
+        }
+
+        struct PoiReservoirBlend { half gradientT; half3 tint; };
+
+        PoiReservoirBlend PoiGetReservoirBlend(float2 la, float height, PoiLavaMaterialParameters mp)
+        {
+            PoiReservoirBlend b;
+            b.gradientT = la.y / max(la.x + la.y, 1e-5);
+            float t = saturate((height - mp.bottomReservoirHeight) / max(mp.topReservoirHeight - mp.bottomReservoirHeight, 1e-5));
+            b.tint = lerp(mp.bottomLightColor, mp.topLightColor, t);
+            return b;
+        }
+
+        bool PoiPrepareBlobCell(float3 lp, uint li, PoiLavaShapeParameters sp, out float3 bc, out uint bs, out float scrollSpeed, out float cellClearance)
+        {
+            bc = lp;
+            bc += cHaltonSequence[li % 4] * cBlobLayerJitterScale;
+            int2 ci = floor(bc.xz);
+            uint cs = ci.x ^ (ci.y << 16) ^ (li << 30);
+            scrollSpeed = lerp(_LavaMinSpeed, _LavaMaxSpeed, PoiRandomNormalized(cs));
+            scrollSpeed *= ((cs & 1) == 0) ? 1.0 : -1.0;
+            bc.y -= scrollSpeed * sp.animationTime;
+            bc.y -= (cs % 1024) / 1024.0;
+            bc.y /= _LavaVerticalSeparation;
+
+            int3 bi = floor(bc);
+            bs = bi.y ^ (bi.z << 10) ^ (bi.x << 20) ^ (li << 30);
+
+            // Distance to the nearest wall of this cell, in lp units.
+            float3 cellSize = float3(1.0, _LavaVerticalSeparation, 1.0);
+            float3 cellPos = frac(bc) * cellSize;
+            float3 toWall = min(cellPos, cellSize - cellPos);
+            cellClearance = min(toWall.x, min(toWall.y, toWall.z));
+
+            return PoiRandomNormalized(bs) < _LavaSkipChance;
+        }
+
+        float2 PoiGetBlobDistAndRadius(float3 lp, uint li, PoiLavaShapeParameters sp, out float cellClearance)
+        {
+            float3 bc;
+            uint bs;
+            float scrollSpeed;
+            [branch]
+            if (PoiPrepareBlobCell(lp, li, sp, bc, bs, scrollSpeed, cellClearance)) return float2(100000000.0, 0.0);
+
+            float br = PoiRandomNormalized(bs);
+            br = pow(br, sp.sizeDistributionPower);
+            br = lerp(_LavaMinSize, _LavaMaxSize, br);
+            br = lerp(sp.minBlobRadius, sp.maxBlobRadius, br);
+            br = clamp(br * sp.blobScale, sp.minBlobRadius, sp.maxBlobRadius);
+
+            float mds = br + _LavaPadding;
+            float bvp = lerp(mds, _LavaVerticalSeparation - mds, PoiRandomNormalized(bs));
+
+            float ar = PoiRandomNormalized(bs) * 2.0 * UNITY_PI;
+            float ec = (PoiRandomNormalized(bs) * 2.0) - 1.0;
+            float2 ma = float2(cos(ar), sin(ar));
+            float2 mi = float2(-ma.y, ma.x) * ec;
+            float ds = lerp(_LavaMinDriftSpeed, _LavaMaxDriftSpeed, PoiRandomNormalized(bs)) * scrollSpeed;
+            float dp = ds * 2.0 * sp.animationTime + ((bs % 1024) / 1024.0) * 2.0 * UNITY_PI;
+            float2 bhp = (ma * cos(dp)) + (mi * sin(dp));
+            bhp = lerp(mds.xx, (1.0 - mds).xx, bhp * 0.5 + 0.5);
+
+            float3 center = float3(bhp.x, bvp, bhp.y);
+            float3 rel = frac(bc);
+            rel.y *= _LavaVerticalSeparation;
+            rel -= center;
+            return float2(PoiGetLavaElementSDF(rel, br, bs, ma, ec), br);
+        }
+
+        float PoiGetDistToLavaSurface(float3 lp, PoiLavaShapeParameters sp, out float cellClearance)
+        {
+            float c0, c1, c2, c3;
+            float d0 = PoiGetBlobDistAndRadius(lp, 0, sp, c0).x;
+            float d1 = PoiGetBlobDistAndRadius(lp, 1, sp, c1).x;
+            float d2 = PoiGetBlobDistAndRadius(lp, 2, sp, c2).x;
+            float d3 = PoiGetBlobDistAndRadius(lp, 3, sp, c3).x;
+            cellClearance = min(min(c0, c1), min(c2, c3));
+            // Blobs are tiled, so their blend is clamped to the original bounds or it reaches
+            // across a cell wall. The reservoir is not tiled and clamping would only shrink it.
+            float d = PoiLavaSmoothMin(
+                PoiLavaSmoothMin(d0, d1, true),
+                PoiLavaSmoothMin(d2, d3, true), true);
+            float rd = min(lp.y - sp.bottomReservoirHeight, sp.topReservoirHeight - lp.y);
+            return PoiLavaSmoothMin(d, rd, false);
+        }
+
+        float PoiGetDistToLavaSurface(float3 lp, PoiLavaShapeParameters sp)
+        {
+            float unusedClearance;
+            return PoiGetDistToLavaSurface(lp, sp, unusedClearance);
+        }
+
+        float PoiRaymarchLava(float3 start, float3 dir, float maxDist, PoiLavaShapeParameters sp)
+        {
+            start /= sp.scale;
+            maxDist /= sp.scale;
+            float total = 0.0;
+            float nearestDist = 1e+9;
+            float nearestTotal = 0.0;
+            int stepLimit = min(_LavaRaymarchSteps, cLavaRaymarchMaxSteps);
+            [loop]
+            for (int step = 0; (step < stepLimit) && (total < maxDist); step++)
+            {
+                float3 samplePos = start + dir * total;
+                float cellClearance;
+                float d = PoiGetDistToLavaSurface(samplePos, sp, cellClearance);
+                // Step inside the surface and back onto it. Stopping at a positive epsilon makes
+                // grazing rays creep along the silhouette until the step budget is gone.
+                [branch]
+                if (d <= 0.0)
+                    return max(0.0, (total + d) * sp.scale);
+                [flatten]
+                if (d < nearestDist) { nearestDist = d; nearestTotal = total; }
+                // d only describes the sample's own cell, so never step past the cell wall plus
+                // the padding every blob is held inside of.
+                total += max(min(d, cellClearance + _LavaPadding), cLavaRaymarchMinStepLength);
+            }
+            // Out of steps while skimming a surface: report the closest approach instead of
+            // punching through to the background and outlining the blob. Rays that never closed
+            // on anything stay misses, otherwise the whole depth of the liquid gets painted.
+            bool grazedSurface = nearestDist < cLavaRaymarchMinStepLength;
+            return (total < maxDist && grazedSurface) ? nearestTotal * sp.scale : -1.0;
+        }
+
+        float PoiRaymarchThroughBlob(float3 start, float3 dir, PoiLavaShapeParameters sp)
+        {
+            start /= sp.scale;
+            float total = cLavaSurfaceOffset;
+            int stepLimit = min(_LavaRaymarchSteps, cLavaRaymarchMaxSteps);
+            [loop]
+            for (int step = 0; step < stepLimit; step++)
+            {
+                float d = PoiGetDistToLavaSurface(start + dir * total, sp);
+                [branch]
+                if (d >= 0.0)
+                    return total * sp.scale;
+                total += max(-d, cLavaRaymarchMinStepLength);
+            }
+            return total * sp.scale;
+        }
+
+        PoiLavaSurfaceParameters PoiGetSurfaceParams(float3 start, float3 dir, float hitDist, PoiLavaShapeParameters sp)
+        {
+            float3 pos = start + dir * hitDist;
+            float3 lp = pos / sp.scale;
+            // Tetrahedral gradient
+            const float3 gradientSample0 = float3( 1.0, -1.0, -1.0);
+            const float3 gradientSample1 = float3(-1.0, -1.0,  1.0);
+            const float3 gradientSample2 = float3(-1.0,  1.0, -1.0);
+            const float3 gradientSample3 = float3( 1.0,  1.0,  1.0);
+            float field0 = PoiGetDistToLavaSurface(lp + gradientSample0 * cNormalEPS, sp);
+            float field1 = PoiGetDistToLavaSurface(lp + gradientSample1 * cNormalEPS, sp);
+            float field2 = PoiGetDistToLavaSurface(lp + gradientSample2 * cNormalEPS, sp);
+            float field3 = PoiGetDistToLavaSurface(lp + gradientSample3 * cNormalEPS, sp);
+            float3 deriv = gradientSample0 * field0 + gradientSample1 * field1
+                         + gradientSample2 * field2 + gradientSample3 * field3;
+            float3 n = clamp(normalize(deriv), -1.0, 1.0);
+            float tsf = smoothstep(1.0, 0.0, saturate(hitDist / cTouchingSideBlendSize));
+
+            PoiLavaSurfaceParameters s;
+            s.position = pos; s.normal = n; s.touchingSideFactor = tsf;
+            return s;
+        }
+
+        PoiLavaShading PoiGetLavaLighting(half3 viewDir, PoiLavaSurfaceParameters sp, PoiLavaShapeParameters shape, PoiLavaMaterialParameters mp, half3 vertexNormal, half3 poiLightColor, half3 poiLightDir)
+        {
+            half3 normal = normalize(lerp(sp.normal, vertexNormal, sp.touchingSideFactor));
+
+            half3 lavaBaseColor = mp.coreColor;
+            #if defined(PROP_LAVALAMPMATCAP) || !defined(OPTIMIZER_ENABLED)
+            [branch]
+            if (_LavaLampMatcapEnable >= 0.5)
+            {
+                float3 refractViewDir = (viewDir);
+                float3 worldViewUp = normalize(float3(0, 1, 0) - refractViewDir * dot(refractViewDir, float3(0, 1, 0)));
+                float3 worldViewRight = normalize(cross(refractViewDir, worldViewUp));
+                float2 matcapUV = float2(dot(worldViewRight, normal), dot(worldViewUp, normal)) * _LavaLampMatcapBorder + 0.5;
+
+                half3 matcapColor = _LavaLampMatcap.SampleLevel(sampler_MainTex, matcapUV, 0.0).rgb * _LavaLampMatcapIntensity;
+                lavaBaseColor = lerp(mp.coreColor, saturate(customBlend(mp.coreColor, matcapColor, _LavaLampMatcapBlendMode)), _LavaLampMatcapAlpha);
+            }
+            #endif
+
+            float2 la = PoiGetLavaLightAttenuations(sp.position.y, mp);
+            half wrap = _LavaSubsurface;
+            half wrapNorm = 1.0 / (1.0 + wrap);
+            half botNL = saturate((dot(normal, half3(0, -1, 0)) + wrap) * wrapNorm);
+            half topNL = saturate((dot(normal, half3(0, 1, 0)) + wrap) * wrapNorm);
+            half poiNL = saturate((dot(normal, poiLightDir) + wrap) * wrapNorm);
+
+            PoiReservoirBlend rb = PoiGetReservoirBlend(la, sp.position.y, mp);
+            lavaBaseColor *= rb.tint;
+
+            half3 botEmissive = mp.bottomLightColor * mp.bottomLightBrightness * la.x * mp.emissionScale;
+            half3 topEmissive = mp.topLightColor * mp.topLightBrightness * la.y * mp.emissionScale;
+            half3 emissionTerm = lerp(botEmissive * botNL, topEmissive * topNL, rb.gradientT);
+            half emissionFade = lerp(1.0, _LavaSubsurface, sp.touchingSideFactor);
+            half3 emission = emissionTerm * emissionFade;
+
+            [branch]
+            if (_LavaSubsurface > 0.0 && (any(botEmissive > 0.0) || any(topEmissive > 0.0)))
+            {
+                float3 absorption = (1.0 - mp.coreColor) * 4.0;
+                float3 thicknessStart = sp.position - sp.normal * (cLavaSurfaceOffset * 2.0 * shape.scale);
+                float thickBot = PoiRaymarchThroughBlob(thicknessStart, float3(0, -1, 0), shape);
+                float thickTop = PoiRaymarchThroughBlob(thicknessStart, float3(0, 1, 0), shape);
+                float backBot = 1.0 - saturate(dot(normal, float3(0, -1, 0)));
+                float backTop = 1.0 - saturate(dot(normal, float3(0, 1, 0)));
+                float3 transmission = botEmissive * exp(-thickBot * absorption) * backBot
+                                    + topEmissive * exp(-thickTop * absorption) * backTop;
+                emission += transmission * mp.coreColor * _LavaSubsurface;
+            }
+
+            half3 baseIll = poiLightColor * poiNL;
+            half rough = _LavaPerceptualRoughness * _LavaPerceptualRoughness;
+            half3 spec = PoiGGXCookTorrance(normal, viewDir, poiLightDir, rough, _LavaReflectiveness) * poiLightColor * lavaBaseColor;
+
+            PoiLavaShading result;
+            result.reflectance = lavaBaseColor * baseIll + spec;
+            result.emission = emission;
+            return result;
+        }
+
+        PoiLavaComposite PoiApplyLiquidParticipation(float h, PoiLavaShading lava, float opacity, float lavaDist, float3 bgCol, float bgDist, PoiLavaMaterialParameters mp, float3 poiLightColor)
+        {
+            float3 ext = mp.waterHazeStrength + (float3(1.0 - mp.waterTintColor) * mp.waterTintStrength);
+            PoiLavaComposite result;
+
+            // Clear liquid, nothing to integrate.
+            [branch]
+            if (all(ext == 0.0))
+            {
+                result.reflectance = lerp(bgCol, lava.reflectance, opacity);
+                result.emission = lava.emission * opacity;
+                result.alpha = opacity;
+                return result;
+            }
+
+            float2 wla = PoiGetLavaLightAttenuations(h, mp);
+            PoiReservoirBlend rb = PoiGetReservoirBlend(wla, h, mp);
+            float3 wbot = mp.bottomLightColor * mp.bottomLightBrightness * wla.x * mp.emissionScale;
+            float3 wtop = mp.topLightColor * mp.topLightBrightness * wla.y * mp.emissionScale;
+            half3 hazeCol = mp.waterHazeColor * rb.tint;
+            float3 inscRefl = max(0.0, poiLightColor * hazeCol * mp.waterHazeStrength / ext);
+            float3 inscEmit = max(0.0, lerp(wbot, wtop, rb.gradientT) * hazeCol * mp.waterHazeStrength / ext);
+            float3 tBg = saturate(exp(-bgDist * ext));
+            float3 bgRefl = lerp(inscRefl, bgCol, tBg);
+            float3 bgEmit = inscEmit * (1.0 - tBg);
+            half hazeAlpha = saturate(1.0 - exp(-bgDist * mp.waterHazeStrength));
+
+            result.reflectance = bgRefl;
+            result.emission = bgEmit;
+            [branch]
+            if (opacity > 0.0)
+            {
+                float3 tLava = saturate(exp(-lavaDist * ext));
+                result.reflectance = lerp(inscRefl, lava.reflectance, tLava);
+                result.emission = lerp(inscEmit, lava.emission, tLava);
+            }
+            result.alpha = (lavaDist >= 0.0) ? 1.0 : hazeAlpha;
+            return result;
+        }
+
+        PoiLavaComposite PoiGetLavaLampColor(float3 startPos, float3 marchDir, float maxDist, float3 bgColor, float3 vertexNormal, float3 poiLightColor, float3 poiLightDir, PoiLavaMaterialParameters mp, float audio)
+        {
+            marchDir = normalize(marchDir);
+            maxDist = max(0.0, maxDist);
+            vertexNormal = normalize(vertexNormal);
+            PoiLavaShapeParameters sp = PoiGetLavaShapeParameters(audio);
+            sp.bottomReservoirHeight /= sp.scale;
+            sp.topReservoirHeight /= sp.scale;
+            float3x3 flowRot = PoiGetFlowRotationMatrix(sp.flowDirection);
+            startPos = mul(flowRot, startPos);
+            marchDir = mul(flowRot, marchDir);
+            vertexNormal = mul(flowRot, vertexNormal);
+            poiLightDir = mul(flowRot, poiLightDir);
+            float dist = PoiRaymarchLava(startPos, marchDir, maxDist, sp);
+            half opacity = (dist >= 0.0) ? 1.0 : 0.0;
+            PoiLavaShading lava;
+            lava.reflectance = 0.0;
+            lava.emission = 0.0;
+            [branch]
+            if (opacity > 0.0)
+            {
+                PoiLavaSurfaceParameters surf = PoiGetSurfaceParams(startPos, marchDir, dist, sp);
+                lava = PoiGetLavaLighting(marchDir, surf, sp, mp, vertexNormal, poiLightColor, poiLightDir);
+            }
+            return PoiApplyLiquidParticipation(startPos.y, lava, opacity, dist, bgColor, maxDist, mp, poiLightColor);
+        }
+
+        void applyLavaLamp(inout PoiFragData poiFragData, in PoiMesh poiMesh, inout PoiLight poiLight, in PoiMods poiMods)
+        {
+            #if defined(PROP_LAVALAMPMASK) || !defined(OPTIMIZER_ENABLED)
+            half lavaMask = POI2D_SAMPLER_PAN(_LavaLampMask, _MainTex, poiUV(poiMesh.uv[_LavaLampMaskUV], _LavaLampMask_ST), _LavaLampMaskPan).r;
+            #else
+            half lavaMask = 1.0;
+            #endif
+            float lavaFactor = lavaMask * (1.0 - poiFragData.alpha) * _LavaLampAlpha;
+
+            if (lavaFactor <= 0.001) return;
+
+            #if defined(POI_PASS_BASE) || defined(POI_PASS_ADD)
+                float3 lavaLampCamPos = getCameraPosition(false);
+                float3 viewDir = IsOrthographicCamera()
+                    ? normalize(UNITY_MATRIX_I_V._m02_m12_m22)
+                    : normalize(poiMesh.worldPos - lavaLampCamPos);
+
+                bool isFrontFacing = poiMesh.isFrontFace > 0.0;
+                float3 lavaLampSurfaceNormal = normalize(lerp(poiMesh.normals[0], poiMesh.normals[1], _LavaLampRefractionNormalStrength));
+
+                // Bind space comes straight from vertex data and is never flipped, so undo the
+                // backface flip to keep the world and bind frames aligned.
+                float3 worldNormalRaw = poiMesh.normals[0];
+                float3 worldTangentRaw = poiMesh.tangent[0];
+                [flatten]
+                if (!isFrontFacing && _FlipBackfaceNormals >= 0.5)
+                {
+                    worldNormalRaw = -worldNormalRaw;
+                    worldTangentRaw = -worldTangentRaw;
+                }
+
+                // Back face means the camera is already inside the medium, so no refraction.
+                float3 mediumRayDir;
+                [flatten]
+                if (isFrontFacing)
+                {
+                    float3 refractionNormal = lavaLampSurfaceNormal;
+                    float3 incidence = viewDir + (refractionNormal * saturate(-dot(viewDir, refractionNormal)));
+                    float3 refractionVec = incidence * (1.0 / _LavaLampRefractiveIndex);
+                    mediumRayDir = normalize(refractionVec - (refractionNormal * sqrt(saturate(1.0 - dot(refractionVec, refractionVec)))));
+                }
+                else
+                {
+                    mediumRayDir = viewDir;
+                }
+
+                bool useBindData = PoiUseBindData(poiMesh);
+
+                float3 fallbackTraceOrigin = poiMesh.worldPos - poiMesh.objectPosition;
+                float3 traceOrigin = fallbackTraceOrigin;
+                float3 traceDir = mediumRayDir;
+                float3 lavaLightDirection = poiLight.direction;
+
+                if (useBindData)
+                {
+                    float tangentSign = poiMesh.isRightHand ? 1.0 : -1.0;
+                    float3 worldBitangent = cross(worldNormalRaw, worldTangentRaw) * tangentSign * unity_WorldTransformParams.w;
+
+                    float3 tangentTraceDir = float3(
+                        dot(mediumRayDir, cross(worldNormalRaw, worldBitangent)),
+                        dot(mediumRayDir, cross(worldBitangent, worldTangentRaw)),
+                        dot(mediumRayDir, cross(worldTangentRaw, worldNormalRaw)));
+                    float3 tangentLightDir = float3(
+                        dot(poiLight.direction, cross(worldNormalRaw, worldBitangent)),
+                        dot(poiLight.direction, cross(worldBitangent, worldTangentRaw)),
+                        dot(poiLight.direction, cross(worldTangentRaw, worldNormalRaw)));
+
+                    traceOrigin = poiMesh.bindPosition.xyz;
+
+                    float3 bindNormal = normalize(poiMesh.bindNormal.xyz);
+                    float4 bindTangent = poiMesh.bindTangent;
+                    float3 bindBinormal = cross(bindNormal, bindTangent.xyz) * bindTangent.w;
+
+                    traceDir = (tangentTraceDir.x * bindTangent.xyz)
+                             + (tangentTraceDir.y * bindNormal)
+                             + (tangentTraceDir.z * bindBinormal);
+                    traceDir = normalize(traceDir) * -tangentSign * unity_WorldTransformParams.w;
+
+                    lavaLightDirection = (tangentLightDir.x * bindTangent.xyz)
+                                       + (tangentLightDir.y * bindNormal)
+                                       + (tangentLightDir.z * bindBinormal);
+                    lavaLightDirection = normalize(lavaLightDirection) * -tangentSign * unity_WorldTransformParams.w;
+                }
+
+                float thickness;
+                [flatten]
+                if (isFrontFacing)
+                {
+                    thickness = PoiGetModelThickness(traceOrigin, traceDir);
+                }
+                else
+                {
+                    // Pull the origin back to the camera so the march runs viewer to fragment.
+                    float worldDist = length(poiMesh.worldPos - lavaLampCamPos);
+                    thickness = max(_MinThickness, useBindData ? (worldDist / max(_WorldRecale, 1e-5)) : worldDist);
+                    traceOrigin -= traceDir * thickness;
+                }
+
+                PoiLavaMaterialParameters mp = PoiGetLavaMaterialParameters(poiMods);
+                float lavaAudio = 0.0;
+                [flatten]
+                if (_LavaAudioLinkEnable > 0.5 && poiMods.audioLinkAvailable > 0.5)
+                    lavaAudio = saturate(poiMods.audioLink[clamp(_LavaAudioLinkBand, 0, 4)]);
+                mp.emissionScale = lerp(_LavaAudioLinkEmission.x, _LavaAudioLinkEmission.y, lavaAudio);
+                #ifdef POI_PASS_ADD
+                    // Lamp glow is emitted once by the base pass, not once per additive light.
+                    mp.emissionScale = 0.0;
+                #endif
+                half3 bgColor = 0;
+                #ifdef POI_PASS_BASE
+                    // invLighting below divides this back out.
+                    bgColor = poiFragData.baseColor * poiLight.finalLighting;
+                #endif
+
+                float3 lavaSpaceVertexNormal = useBindData ? normalize(poiMesh.bindNormal.xyz) : worldNormalRaw;
+                half3 lavaLightColor = max(0.0, poiLight.directColor);
+                PoiLavaComposite lampResult = PoiGetLavaLampColor(traceOrigin, traceDir, thickness, bgColor, lavaSpaceVertexNormal, lavaLightColor, lavaLightDirection, mp, lavaAudio);
+
+                #ifdef POI_PASS_ADD
+                    poiFragData.baseColor *= 1.0 - lavaFactor;
+                    poiLight.finalLightAdd += lampResult.reflectance * lavaFactor;
+                #else
+                    float3 invLighting = 1.0 / max(poiLight.finalLighting, 0.0001);
+                    poiFragData.baseColor = lerp(poiFragData.baseColor, lampResult.reflectance * invLighting, lavaFactor);
+                    poiFragData.emission += lampResult.emission * lavaFactor;
+                #endif
+            #endif
+        }
+    #endif
+//endex
+
+#T#PoiLavaLampFunctionCall
+//ifex _InternalWaterEnable==0
+    #ifdef POI_INTERNAL_WATER
+        applyLavaLamp(poiFragData, poiMesh, poiLight, poiMods);
+    #endif
+//endex

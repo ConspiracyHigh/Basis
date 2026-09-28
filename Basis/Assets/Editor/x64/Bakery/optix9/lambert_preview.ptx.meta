@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 16d04fa64be0b7543bc41ea740140ec4
+timeCreated: 1765742339
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164462
+  packageName: Bakery Real-Time Preview
+  packageVersion: 1.198
+  assetPath: Assets/Editor/x64/Bakery/optix9/lambert_preview.ptx
+  uploadId: 838816

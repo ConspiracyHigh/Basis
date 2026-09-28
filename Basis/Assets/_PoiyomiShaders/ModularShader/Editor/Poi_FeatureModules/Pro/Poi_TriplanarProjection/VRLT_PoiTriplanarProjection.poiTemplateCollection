@@ -1,0 +1,393 @@
+#T#PoiTriplanarProjectionProperties
+[HideInInspector] m_TriplanarProjectionCategory ("Triplanar Projection--{button_help:{text:Tutorial,action:{type:URL,data:https://www.poiyomi.com/extended-features/triplanar-projection},hover:Documentation}}", Float) = 0
+[Helpbox(1, 2, 3)]_TriplanarPerfWarning ("Triplanar Projection is expensive. It samples textures three times and can be especially heavy with normals, masks, lighting, or extra features enabled.", Int) = 0
+[ThryWideEnum(Depth, 0, Mesh, 1)]_TriplanarMode ("Projection Mode", Int) = 0
+[Helpbox(1, 2, 1)]_TriplanarDepthWarning ("Depth Projection requires the depth buffer. Put the DepthGet.prefab on your avatar so it'll work in every world.--{condition_showS:(_TriplanarMode==0)}", Int) = 0
+[PoiPrefabSpawner(23c61f8f4d0a87243a36c937bd3e1393)]_TriplanarDepthGet ("Add DepthGet Prefab to Scene--{condition_showS:(_TriplanarMode==0)}", Float) = 0
+_TriplanarDepthBlur ("Depth Blur--{condition_showS:(_TriplanarMode==0)}", Range(1, 10)) = 1
+[Enum(Normal Blend, 3, GPU Gems 3, 1, Asymmetric Triplanar, 2)]_TriplanarBlendType ("Blend Method", Int) = 3
+_TriplanarBlendSharpeness ("Blend Sharpness--{condition_showS:(_TriplanarBlendType==3)}", Range(0, 0.55)) = 0.2
+_TriplanarScaleWithObject ("Scale With Object", Range(0, 1)) = 1
+_TriplanarMask ("Triplanar Mask--{reference_properties:[_TriplanarMaskPan, _TriplanarMaskUV, _TriplanarMaskChannel, _TriplanarMaskInvert]}", 2D) = "white" { }
+[ThryHideInInspector][Vector2]_TriplanarMaskPan ("Panning", Vector) = (0, 0, 0, 0)
+[ThryHideInInspector][ThryWideEnum(UV0, 0, UV1, 1, UV2, 2, UV3, 3, Panosphere, 4, World Pos, 5, Local Pos, 8, Polar UV, 6, Distorted UV, 7, Matcap, 9, Screen Space, 10)]_TriplanarMaskUV ("UV", Int) = 0
+[ThryHideInInspector][ThryWideEnum(R, 0, G, 1, B, 2, A, 3)]_TriplanarMaskChannel ("Channel", Int) = 0
+[ThryHideInInspector][ToggleUI]_TriplanarMaskInvert ("Invert", Float) = 0
+_TriplanarMaskStrength ("Mask Strength", Range(0, 1)) = 1
+
+_TriplanarMaxSize ("Max Size--{condition_showS:(_TriplanarMode==0)}", Float) = 1.0
+[MultiSlider]_TriplanarEdgeFade ("Edge Fade--{condition_showS:(_TriplanarMode==0)}", Vector) = (0.0, 0.5, 0, 1)
+[VectorLabel(Near, Far)]_TriplanarCameraFade ("Camera Fade--{condition_showS:(_TriplanarMode==0)}", Vector) = (10, 15, 0, 1)
+
+#T#PoiTriplanarProjectionKeywords
+#define TRIPLANAR_PROJECTION
+
+#T#PoiTriplanarProjectionVariablesExposed
+float _TriplanarMode;
+float _TriplanarDepthBlur;
+float _TriplanarBlendSharpeness;
+float _TriplanarBlendType;
+float4 _TriplanarMask_ST;
+float2 _TriplanarMaskPan;
+float _TriplanarMaskUV;
+float _TriplanarMaskChannel;
+half _TriplanarMaskInvert;
+half _TriplanarMaskStrength;
+float _TriplanarMaxSize;
+float _TriplanarScaleWithObject;
+float4 _TriplanarEdgeFade;
+float4 _TriplanarCameraFade;
+
+#T#PoiTriplanarProjectionVariables
+#if defined(PROP_TRIPLANARMASK) || !defined(OPTIMIZER_ENABLED)
+    Texture2D _TriplanarMask;
+#endif
+
+#T#PoiTriplanarProjectionStruct
+struct PoiTriplanarData
+{
+    bool depthAvailable;
+    half mask;
+    float distFade;
+    float3 triblend;
+    float3 objWorldPos;
+    float3 objScale;
+    half4 prevColor;
+};
+
+#T#PoiTriplanarProjectionExtraData
+uint id;
+
+#T#PoiTriplanarProjectionFunctions
+void TriplanarProjectionInit(inout PoiTriplanarData poiTriplanarData, inout PoiFragData poiFragData, inout PoiFragData poiFragData2, inout PoiFragData poiFragData3, inout PoiMesh poiMesh, inout PoiMesh poiMesh2, inout PoiMesh poiMesh3, in PoiCam poiCam)
+{
+    poiTriplanarData.depthAvailable = DepthTextureExists();
+    if (_TriplanarMode == 0 && !poiTriplanarData.depthAvailable) return;
+
+    poiTriplanarData.objWorldPos = unity_ObjectToWorld._m03_m13_m23;
+    poiTriplanarData.objScale = float3(
+        length(unity_ObjectToWorld._m00_m10_m20),
+        length(unity_ObjectToWorld._m01_m11_m21),
+        length(unity_ObjectToWorld._m02_m12_m22)
+    );
+    poiTriplanarData.objScale = lerp(1..xxx, poiTriplanarData.objScale, _TriplanarScaleWithObject);
+
+    float3 posOS;
+    float3 posWS;
+    float3 normalWS;
+    float distFade = 1.0;
+    switch ((int)_TriplanarMode)
+    {
+        default:
+        case 0:
+        {
+            float3 eyeCamPos = getCameraPosition(false);
+            float perspectiveDivide = 1.0f / poiCam.clipPos.w;
+            float4 direction = float4(poiMesh.worldPos.xyz - eyeCamPos, poiCam.worldDirection.w) * perspectiveDivide;
+            float2 screenPos = poiCam.posScreenSpace * perspectiveDivide;
+            float rawDepth = SampleScreenDepth(screenPos);
+            float sceneEyeDepth = CorrectedLinearEyeDepth(rawDepth, direction.w);
+            posWS = direction.xyz * sceneEyeDepth + eyeCamPos;
+            posOS = (posWS - poiTriplanarData.objWorldPos) / poiTriplanarData.objScale;
+            float dist = length(posOS);
+            clip(_TriplanarMaxSize - dist);
+            distFade = 1.0 - smoothstep(_TriplanarMaxSize - (_TriplanarEdgeFade.y - _TriplanarEdgeFade.x), _TriplanarMaxSize, dist);
+            float camDist = distance(getCameraPosition(true), poiTriplanarData.objWorldPos);
+            float camFade = 1.0 - saturate((camDist - _TriplanarCameraFade.x) / max(_TriplanarCameraFade.y - _TriplanarCameraFade.x, 1e-5));
+            clip(camFade - 1e-6);
+            distFade *= camFade;
+
+            float2 depthTexel = _TriplanarDepthBlur / _ScreenParams.xy;
+            float3 rayDX = ddx(direction.xyz);
+            float3 rayDY = ddy(direction.xyz);
+            float corrDX = ddx(direction.w) * _TriplanarDepthBlur;
+            float corrDY = ddy(direction.w) * _TriplanarDepthBlur;
+
+            float edgeTol = sceneEyeDepth * 0.1;
+            float eyeR = CorrectedLinearEyeDepth(SampleScreenDepth(screenPos + float2(depthTexel.x, 0)), direction.w + corrDX);
+            float eyeL = CorrectedLinearEyeDepth(SampleScreenDepth(screenPos - float2(depthTexel.x, 0)), direction.w - corrDX);
+            float eyeU = CorrectedLinearEyeDepth(SampleScreenDepth(screenPos + float2(0, depthTexel.y)), direction.w + corrDY);
+            float eyeD = CorrectedLinearEyeDepth(SampleScreenDepth(screenPos - float2(0, depthTexel.y)), direction.w - corrDY);
+
+            // Reject taps if too far to avoid artifacts
+            eyeR = abs(eyeR - sceneEyeDepth) < edgeTol ? eyeR : sceneEyeDepth;
+            eyeL = abs(eyeL - sceneEyeDepth) < edgeTol ? eyeL : sceneEyeDepth;
+            eyeU = abs(eyeU - sceneEyeDepth) < edgeTol ? eyeU : sceneEyeDepth;
+            eyeD = abs(eyeD - sceneEyeDepth) < edgeTol ? eyeD : sceneEyeDepth;
+
+            float3 posR = (direction.xyz + rayDX * _TriplanarDepthBlur) * eyeR + eyeCamPos;
+            float3 posL = (direction.xyz - rayDX * _TriplanarDepthBlur) * eyeL + eyeCamPos;
+            float3 posU = (direction.xyz + rayDY * _TriplanarDepthBlur) * eyeU + eyeCamPos;
+            float3 posD = (direction.xyz - rayDY * _TriplanarDepthBlur) * eyeD + eyeCamPos;
+
+            float3 dpdx = (abs(eyeR - sceneEyeDepth) < abs(sceneEyeDepth - eyeL)) ? (posR - posWS) : (posWS - posL);
+            float3 dpdy = (abs(eyeU - sceneEyeDepth) < abs(sceneEyeDepth - eyeD)) ? (posU - posWS) : (posWS - posD);
+
+            normalWS = -normalize(cross(dpdx, dpdy));
+            break;
+        }
+        case 1:
+        {
+            posOS = poiMesh.localPos / poiTriplanarData.objScale;
+            posWS = poiMesh.worldPos / poiTriplanarData.objScale;
+            normalWS = normalize(poiMesh.objNormal);
+            break;
+        }
+    }
+
+    float3 axisSign = normalWS < 0 ? -1 : 1;
+
+    poiMesh.uv[0] = float2(posOS.z * axisSign.x, posOS.y) + 0.5;
+    poiMesh2.uv[0] = float2(posOS.x * axisSign.y, posOS.z) + 0.5;
+    poiMesh3.uv[0] = float2(posOS.x * -axisSign.z, posOS.y) + 0.5;
+
+    poiMesh.objNormal = normalWS;
+    poiMesh.localPos = posOS;
+    poiMesh.worldPos = posWS;
+
+    poiMesh2.objNormal = poiMesh3.objNormal = poiMesh.objNormal;
+    poiMesh2.localPos = poiMesh3.localPos = poiMesh.localPos;
+    poiMesh2.worldPos = poiMesh3.worldPos = poiMesh.worldPos;
+
+    float3 triblend;
+    switch ((int)_TriplanarBlendType)
+    {
+        default:
+        case 3: // Normal blend
+        {
+            triblend = abs(normalWS);
+            triblend = max(triblend - _TriplanarBlendSharpeness, 0);
+            triblend /= dot(triblend, float3(1,1,1));
+            break;
+        }
+        case 1: // GPU Gems 3
+        {
+            triblend = saturate(pow(abs(normalWS), 6));
+            triblend /= max(dot(triblend, 1..xxx), 0.0001);
+            break;
+        }
+        case 2: // Asymmetric
+        {
+            triblend = 0;
+            // Blend for sides only
+            float2 xzBlend = abs(normalize(normalWS.xz));
+            triblend.xz = max(0, xzBlend - 0.67);
+            triblend.xz /= max(0.00001, dot(triblend.xz, float2(1,1)));
+            // Blend for top
+            triblend.y = saturate((abs(normalWS.y) - 0.675) * 80.0);
+            triblend.xz *= (1 - triblend.y);
+            break;
+        }
+    }
+
+    half mask = 1;
+    #if defined(PROP_TRIPLANARMASK) || !defined(OPTIMIZER_ENABLED)
+        half maskX = POI2D_SAMPLER_PAN(_TriplanarMask, _MainTex, poiUV(poiMesh.uv[_TriplanarMaskUV], _TriplanarMask_ST), _TriplanarMaskPan)[(int)_TriplanarMaskChannel];
+        half maskY = POI2D_SAMPLER_PAN(_TriplanarMask, _MainTex, poiUV(poiMesh2.uv[_TriplanarMaskUV], _TriplanarMask_ST), _TriplanarMaskPan)[(int)_TriplanarMaskChannel];
+        half maskZ = POI2D_SAMPLER_PAN(_TriplanarMask, _MainTex, poiUV(poiMesh3.uv[_TriplanarMaskUV], _TriplanarMask_ST), _TriplanarMaskPan)[(int)_TriplanarMaskChannel];
+        mask = maskX * triblend.x + maskY * triblend.y + maskZ * triblend.z;
+        mask = (_TriplanarMaskInvert > 0.5) ? 1 - mask : mask;
+        mask *= _TriplanarMaskStrength;
+    #endif
+
+    poiTriplanarData.triblend = triblend;
+    poiTriplanarData.distFade = distFade;
+    poiTriplanarData.mask = mask;
+}
+
+void TriplanarProjectionTangents(in PoiTriplanarData poiTriplanarData, inout PoiMesh poiMesh, inout PoiMesh poiMesh2, inout PoiMesh poiMesh3)
+{
+    if (_TriplanarMode == 0 && !poiTriplanarData.depthAvailable) return;
+    
+    float3 normalWS = poiMesh.objNormal;
+
+    float3 triblend = poiTriplanarData.triblend;
+    half mask = poiTriplanarData.mask;
+
+    float3 tnormalX = poiMesh.tangentSpaceNormal;
+    float3 tnormalY = poiMesh2.tangentSpaceNormal;
+    float3 tnormalZ = poiMesh3.tangentSpaceNormal;
+
+    float3 axisSign = normalWS < 0 ? -1 : 1;
+
+    tnormalX.x *= axisSign.x;
+    tnormalY.x *= axisSign.y;
+    tnormalZ.x *= -axisSign.z;
+
+    float3 normalX = float3(0.0, tnormalX.yx);
+    float3 normalY = float3(tnormalY.x, 0.0, tnormalY.y);
+    float3 normalZ = float3(tnormalZ.xy, 0.0);
+
+    float3 blendedWS = normalize(
+        normalX.xyz * triblend.x +
+        normalY.xyz * triblend.y +
+        normalZ.xyz * triblend.z +
+        normalWS
+    );
+
+    blendedWS = _TriplanarMode == 1 ? PoiObjectToWorldNormal(blendedWS) : blendedWS;
+
+    float3 blendedTS = float3(
+        dot(blendedWS, poiMesh.tangent[0]),
+        dot(blendedWS, poiMesh.binormal[0]),
+        dot(blendedWS, poiMesh.normals[0])
+    );
+
+    poiMesh.tangentSpaceNormal = lerp(poiMesh.tangentSpaceNormal, blendedTS, mask);
+    poiMesh2.tangentSpaceNormal = poiMesh3.tangentSpaceNormal = poiMesh.tangentSpaceNormal;
+}
+
+void TriplanarProjectionNormals(in PoiTriplanarData poiTriplanarData, inout PoiMesh poiMesh, inout PoiMesh poiMesh2, inout PoiMesh poiMesh3)
+{
+    if (_TriplanarMode == 0 && !poiTriplanarData.depthAvailable) return;
+
+    if (_TriplanarMode == 0)
+    {
+        float3 normalWS = normalize(poiMesh.objNormal);
+        float3 axisSign = normalWS < 0 ? -1 : 1;
+        float3 triblend = poiTriplanarData.triblend;
+
+        float3 triBinormal = float3(0, 1, 0) * (triblend.x + triblend.z) + float3(0, 0, 1) * triblend.y;
+        triBinormal -= normalWS * dot(triBinormal, normalWS);
+        if (dot(triBinormal, triBinormal) < 0.0001)
+        {
+            triBinormal = abs(normalWS.y) < 0.999 ? float3(0, 1, 0) : float3(0, 0, 1);
+            triBinormal -= normalWS * dot(triBinormal, normalWS);
+        }
+
+        poiMesh.normals[0] = normalWS;
+        poiMesh.binormal[0] = normalize(triBinormal);
+        poiMesh.tangent[0] = normalize(cross(poiMesh.binormal[0], -poiMesh.normals[0]));
+
+        poiMesh.binormal[1] = poiMesh.binormal[0] - poiMesh.normals[1] * dot(poiMesh.binormal[0], poiMesh.normals[1]);
+        if (dot(poiMesh.binormal[1], poiMesh.binormal[1]) < 0.0001)
+        {
+            poiMesh.binormal[1] = poiMesh.binormal[0];
+        }
+        poiMesh.binormal[1] = normalize(poiMesh.binormal[1]);
+        poiMesh.tangent[1] = normalize(cross(poiMesh.binormal[1], -poiMesh.normals[1]));
+    }
+
+    poiMesh2.normals[0] = poiMesh3.normals[0] = poiMesh.normals[0];
+    poiMesh2.normals[1] = poiMesh3.normals[1] = poiMesh.normals[1];
+    poiMesh2.tangent[0] = poiMesh3.tangent[0] = poiMesh.tangent[0];
+    poiMesh2.tangent[1] = poiMesh3.tangent[1] = poiMesh.tangent[1];
+    poiMesh2.binormal[0] = poiMesh3.binormal[0] = poiMesh.binormal[0];
+    poiMesh2.binormal[1] = poiMesh3.binormal[1] = poiMesh.binormal[1];
+}
+
+void TriplanarProjectionPreShadows(inout PoiTriplanarData poiTriplanarData, inout PoiFragData poiFragData, inout PoiFragData poiFragData2, inout PoiFragData poiFragData3, inout PoiMesh poiMesh, inout PoiMesh poiMesh2, inout PoiMesh poiMesh3, in PoiCam poiCam)
+{
+    if (_TriplanarMode == 0 && !poiTriplanarData.depthAvailable) return;
+
+    float3 triblend = poiTriplanarData.triblend;
+    half mask = poiTriplanarData.mask;
+
+    float4 colX = float4(poiFragData.baseColor, poiFragData.alpha);
+    float4 colY = float4(poiFragData2.baseColor, poiFragData2.alpha);
+    float4 colZ = float4(poiFragData3.baseColor, poiFragData3.alpha);
+    float4 col = colX * triblend.x + colY * triblend.y + colZ * triblend.z;
+
+    col.a *= poiTriplanarData.distFade * mask;
+
+    poiTriplanarData.prevColor = float4(poiFragData.baseColor, poiFragData.alpha);
+
+    poiFragData.baseColor = lerp(poiFragData.baseColor, col.rgb, mask);
+    poiFragData.alpha = col.a;
+}
+
+void TriplanarProjectionPostShadows(in PoiTriplanarData poiTriplanarData, inout PoiFragData poiFragData)
+{
+    // if (_TriplanarMode == 0 && !poiTriplanarData.depthAvailable) return;
+
+    // poiFragData.baseColor = poiTriplanarData.prevColor.rgb;
+    // poiFragData.alpha = poiTriplanarData.prevColor.a;
+}
+
+void applyTriplanarProjection(in PoiTriplanarData poiTriplanarData, inout PoiFragData poiFragData, inout PoiFragData poiFragData2, inout PoiFragData poiFragData3, inout PoiMesh poiMesh, inout PoiMesh poiMesh2, inout PoiMesh poiMesh3, inout PoiLight poiLight, in PoiCam poiCam)
+{
+    if (_TriplanarMode == 0 && !poiTriplanarData.depthAvailable) return;
+
+    float3 posOS = poiMesh.localPos;
+    float3 normalWS = poiMesh.objNormal;
+
+    float3 triblend = poiTriplanarData.triblend;
+    half4 mask = poiTriplanarData.mask;
+
+    float4 colX = float4(poiFragData.baseColor, poiFragData.alpha);
+    float4 colY = float4(poiFragData2.baseColor, poiFragData2.alpha);
+    float4 colZ = float4(poiFragData3.baseColor, poiFragData3.alpha);
+    float4 col = colX * triblend.x + colY * triblend.y + colZ * triblend.z;
+
+    half3 emission = poiFragData.emission  * triblend.x
+                    + poiFragData2.emission * triblend.y
+                    + poiFragData3.emission * triblend.z;
+
+    float distFade = poiTriplanarData.distFade;
+
+    col.a *= distFade * mask;
+
+    poiFragData.baseColor = lerp(poiFragData.baseColor, col.rgb, mask);
+    poiFragData.alpha = col.a;
+    poiFragData.emission = emission * col.a;
+    poiLight.finalLightAdd *= col.a;
+    poiLight.finalLighting *= col.a;
+}
+
+#T#PoiTriplanarProjectionFragDataSetup
+poiFragData.id = 0;
+
+PoiFragData poiFragData2, poiFragData3;
+poiFragData2 = poiFragData3 = poiFragData;
+poiFragData2.id = 1;
+poiFragData3.id = 2;
+
+PoiTriplanarData poiTriplanarData;
+PoiInitStruct(PoiTriplanarData, poiTriplanarData);
+
+#T#PoiTriplanarProjectionMeshDataSetup
+poiMesh.id = 0;
+
+PoiMesh poiMesh2, poiMesh3;
+poiMesh2 = poiMesh3 = poiMesh;
+poiMesh2.id = 1;
+poiMesh3.id = 2;
+
+#T#PoiTriplanarProjectionInitialization
+#if defined(POI_PASS_BASE)
+    TriplanarProjectionInit(poiTriplanarData, poiFragData, poiFragData2, poiFragData3, poiMesh, poiMesh2, poiMesh3, poiCam);
+#endif
+
+#T#PoiTriplanarProjectionTangents
+#if defined(POI_PASS_BASE)
+    TriplanarProjectionTangents(poiTriplanarData, poiMesh, poiMesh2, poiMesh3);
+#endif
+
+#T#PoiTriplanarProjectionNormals
+#if defined(POI_PASS_BASE)
+    TriplanarProjectionNormals(poiTriplanarData, poiMesh, poiMesh2, poiMesh3);
+#endif
+
+#T#PoiTriplanarProjectionPreShadowsFunctionCalls
+#if defined(POI_PASS_BASE)
+    TriplanarProjectionPreShadows(poiTriplanarData, poiFragData, poiFragData2, poiFragData3, poiMesh, poiMesh2, poiMesh3, poiCam);
+#endif
+
+#T#PoiTriplanarProjectionPostShadowsFunctionCalls
+#if defined(POI_PASS_BASE)
+    TriplanarProjectionPostShadows(poiTriplanarData, poiFragData);
+#endif
+
+#T#PoiTriplanarProjectionFunctionCalls
+#if defined(POI_PASS_BASE)
+    applyTriplanarProjection(poiTriplanarData, poiFragData, poiFragData2, poiFragData3, poiMesh, poiMesh2, poiMesh3, poiLight, poiCam);
+#endif
+
+#T#PoiTriplanarProjectionKillShadow
+#if defined(POI_PASS_ADD) || defined(POI_PASS_SHADOW)
+if (_TriplanarMode != 1)
+{
+    clip(-1);
+    return 0;
+}
+#endif

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9579f663c791c984489949834118a112
+timeCreated: 1617749862
+licenseType: Store
+ComputeShaderImporter:
+  currentAPIMask: 4
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.985
+  assetPath: Assets/Editor/x64/Bakery/shaderSrc/ftBrightestValue.compute
+  uploadId: 999818

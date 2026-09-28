@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: aa7cdccf86379b846a54759588fde484
+timeCreated: 1747500692
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.985
+  assetPath: Assets/Editor/x64/Bakery/scripts/ftMultiVolumeMenu.cs
+  uploadId: 999818

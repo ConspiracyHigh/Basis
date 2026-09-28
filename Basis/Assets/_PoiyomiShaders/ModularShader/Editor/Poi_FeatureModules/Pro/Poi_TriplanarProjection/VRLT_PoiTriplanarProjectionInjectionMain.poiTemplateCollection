@@ -1,0 +1,97 @@
+﻿#T#PoiTriplanarProjectionInjectionCamera
+// Camera data
+poiCam.forwardDir = getCameraForward();
+poiCam.worldPos = getCameraPosition();
+poiCam.reflectionDir = reflect(-poiCam.eyeViewDir, poiMesh.normals[1]);
+poiCam.vertexReflectionDir = reflect(-poiCam.eyeViewDir, poiMesh.normals[0]);
+//poiCam.distanceToModel = distance(poiMesh.modelPos, poiCam.worldPos);
+poiCam.clipPos = i.pos;
+poiCam.distanceToVert = distance(poiMesh.worldPos, poiCam.worldPos);
+poiCam.posScreenSpace = poiTransformClipSpacetoScreenSpaceFrag(poiCam.clipPos);
+#ifdef UNITY_SINGLE_PASS_STEREO
+    poiCam.posScreenSpace.x = poiCam.posScreenSpace.x * 0.5;
+#endif
+poiCam.screenUV = poiCam.posScreenSpace.xy / poiCam.posScreenSpace.w;
+
+poiCam.posScreenPixels = calcPixelScreenUVs(poiCam.posScreenSpace);
+poiCam.vDotN = abs(dot(poiCam.eyeViewDir, poiMesh.normals[1]));
+
+poiCam.worldDirection.xyz = poiMesh.worldPos.xyz - poiCam.worldPos;
+#if defined(POI_PASS_LILFUR)
+    poiCam.worldDirection.w = dot(PoiWorldToClipPos(poiMesh.worldPos.xyz), CalculateFrustumCorrection());
+#else
+    poiCam.worldDirection.w = i.worldDir;
+#endif
+
+#if POI_PIPE == POI_URP
+    // The Forward+ light loop (LIGHT_LOOP_BEGIN) requires the InputData struct to be in its scope.
+    InputData inputData;
+    PoiInitStruct(InputData, inputData);
+    inputData.positionWS = poiMesh.worldPos;
+    inputData.normalWS = poiMesh.normals[1];
+    inputData.viewDirectionWS = poiCam.eyeViewDir;
+    inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(i.pos);
+#endif
+
+#T#PoiTriplanarProjectionReplaceCameraStart
+#if 0
+
+#T#PoiTriplanarProjectionReplaceCameraEnd
+#endif
+
+#T#PoiTriplanarProjectionInjectionMainTexture
+// MAIN_TEXTURE_HOOK
+float2 mainUV2 = poiUV(poiMesh2.uv[_MainTexUV].xy, _MainTex_ST);
+
+if (_MainPixelMode >= 0.5)
+{
+	mainUV2 = sharpSample(_MainTex_TexelSize, mainUV2);
+}
+
+float4 mainTexture2 = POI2D_SAMPLER_PAN_STOCHASTIC(_MainTex, _MainTex, mainUV2, _MainTexPan, _MainTexStochastic);
+mainTexture2.a = max(mainTexture2.a, _MainIgnoreTexAlpha);
+
+float2 mainUV3 = poiUV(poiMesh3.uv[_MainTexUV].xy, _MainTex_ST);
+
+if (_MainPixelMode >= 0.5)
+{
+	mainUV3 = sharpSample(_MainTex_TexelSize, mainUV3);
+}
+
+float4 mainTexture3 = POI2D_SAMPLER_PAN_STOCHASTIC(_MainTex, _MainTex, mainUV3, _MainTexPan, _MainTexStochastic);
+mainTexture3.a = max(mainTexture3.a, _MainIgnoreTexAlpha);
+
+#T#PoiTriplanarProjectionInjectionMainColor
+// MAIN_COLOR_HOOK
+applyMainColor(poiFragData2, poiMesh2, poiCam, poiMods, mainTexture2);
+applyMainColor(poiFragData3, poiMesh3, poiCam, poiMods, mainTexture3);
+
+#T#PoiTriplanarProjectionInjectionAlphaOptions
+// ALPHA_OPTIONS_HOOK
+applyAlphaOptions(poiFragData2, poiMesh2, poiCam, poiMods);
+applyAlphaOptions(poiFragData3, poiMesh3, poiCam, poiMods);
+
+#T#PoiTriplanarProjectionInjectionDetailColor
+// DETAIL_COLOR_HOOK
+ApplyDetailColor(poiFragData2, poiMesh2, poiMods);
+ApplyDetailColor(poiFragData3, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionSkin
+// SKIN_HOOK
+applySkin(poiFragData2, poiMesh2, poiMods);
+applySkin(poiFragData3, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionBackFace
+// BACKFACE_HOOK
+ApplyBackFaceColor(poiFragData2, poiMesh2, poiMods);
+ApplyBackFaceColor(poiFragData3, poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionVideoEffectsMainTex
+// VIDEO_EFFECTS_MAIN_TEX_HOOK
+applyVideoEffectsMainTex(mainTexture2, poiMesh2);
+applyVideoEffectsMainTex(mainTexture3, poiMesh3);
+
+#T#PoiTriplanarProjectionInjectionRGBMask
+// RGBMASK_HOOK
+calculateRGBMask(poiFragData2, poiMesh2, poiMods);
+calculateRGBMask(poiFragData3, poiMesh3, poiMods);

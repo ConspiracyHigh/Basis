@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 15261eac81ee8fc45977a710c6280524
+timeCreated: 1771885162
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.985
+  assetPath: Assets/Editor/x64/Bakery/optix9/shadow_rtxInst.ptx
+  uploadId: 999818

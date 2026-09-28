@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 27b61d9d80114ab4199d4e620c9c7839
+timeCreated: 1765744381
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 164462
+  packageName: Bakery Real-Time Preview
+  packageVersion: 1.198
+  assetPath: Assets/Editor/x64/Bakery/optix9/shadow_rtx_preview.ptx
+  uploadId: 838816

@@ -1,0 +1,19 @@
+﻿#T#PoiTriplanarProjectionInjectionNormal
+// MAIN_NORMAL_HOOK
+applyMainNormal(poiMesh2);
+applyMainNormal(poiMesh3);
+
+#T#PoiTriplanarProjectionInjectionNormal2
+// MAIN_NORMAL2_HOOK
+applyMainNormal2(poiMesh2, poiMods);
+applyMainNormal2(poiMesh3, poiMods);
+
+#T#PoiTriplanarProjectionInjectionDetailNormal
+// DETAIL_NORMAL_HOOK
+ApplyDetailNormal(poiMods, poiMesh2);
+ApplyDetailNormal(poiMods, poiMesh3);
+
+#T#PoiTriplanarProjectionInjectionRGBNormals
+// RGBNORMALS_HOOK
+calculateRGBNormals(poiMesh2, poiMods);
+calculateRGBNormals(poiMesh3, poiMods);

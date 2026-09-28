@@ -1,0 +1,54 @@
+﻿#pragma kernel CSMaxTexture
+#pragma kernel CSMaxBuffer
+
+#define numThreadsX 16
+
+Texture2D<float4> inputTex;
+RWStructuredBuffer<float> outputGroupMax, outputGroupMax2;
+int bufferWidth;
+
+groupshared float sharedMax[numThreadsX * numThreadsX];
+
+[numthreads(numThreadsX, numThreadsX, 1)]
+void CSMaxTexture(uint3 id : SV_DispatchThreadID, uint3 threadID : SV_GroupThreadID, uint3 groupID : SV_GroupID)
+{
+    // assuming size/numThreads is always integer
+    ///if (id.x >= texSize) return;
+    //if (id.y >= texSize) return;
+
+    float3 color = inputTex.Load(int3(id.xy,0)).rgb;
+    float maxValue = max(max(color.r, color.g), color.b);
+
+    uint sharedIdx = threadID.y * numThreadsX + threadID.x;
+    sharedMax[sharedIdx] = maxValue;
+    GroupMemoryBarrierWithGroupSync();
+
+    for (uint stride = 128; stride > 0; stride >>= 1)
+    {
+        if (sharedIdx < stride) sharedMax[sharedIdx] = max(sharedMax[sharedIdx], sharedMax[sharedIdx + stride]);
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    uint groupIndex = groupID.y * bufferWidth + groupID.x;
+    if (sharedIdx == 0) outputGroupMax[groupIndex] = sharedMax[0];
+}
+
+[numthreads(numThreadsX*numThreadsX, 1, 1)]
+void CSMaxBuffer(uint3 id : SV_DispatchThreadID, uint3 threadID : SV_GroupThreadID, uint3 groupID : SV_GroupID)
+{
+    float maxValue = outputGroupMax[id.x];
+
+    uint sharedIdx = threadID.x;
+    sharedMax[sharedIdx] = maxValue;
+    GroupMemoryBarrierWithGroupSync();
+
+    for (uint stride = 128; stride > 0; stride >>= 1)
+    {
+        if (sharedIdx < stride) sharedMax[sharedIdx] = max(sharedMax[sharedIdx], sharedMax[sharedIdx + stride]);
+        GroupMemoryBarrierWithGroupSync();
+    }
+
+    uint groupIndex = groupID.x;
+    if (sharedIdx == 0) outputGroupMax2[groupIndex] = sharedMax[0];
+}
+

@@ -1,0 +1,152 @@
+#T#PoiRaymarchingDataProperties
+// Shared baked data for raymarching modules: the SDF volume of the mesh, and the bind pose data
+// baked into its UVs. Both come out of the same bake, so the button that produces them lives here
+// rather than inside any one effect.
+//
+// Adding a raymarching module that uses this data? See PoiRaymarchingDataFunctions below for the
+// two-line contract.
+//ifex _InternalWaterEnable==0
+[HideInInspector] m_start_PoiRaymarchingData (" SDF Volume & Bind Data--{persistent_expand:true,default_expand:true}", Float) = 0
+[PoiApplySDFBaker][NoScaleOffset] _SDFTexture ("SDF Volume", 3D) = "black" {}
+[HideInInspector] _SDFPixelSize ("SDF Pixel Size", Float) = 1
+[HideInInspector] _SDFLowerCorner ("SDF Lower Corner", Vector) = (0, 0, 0, 0)
+[HideInInspector] _SDFSize ("SDF Size", Vector) = (1, 1, 1, 0)
+_MinThickness ("Min Thickness", Range(0, 1)) = 0.15
+
+[HideInInspector] s_start_PoiRaymarchingBindData ("Bind Data--{persistent_expand:true,default_expand:false}", Float) = 0
+[Enum(Disabled, 0, Enabled, 1, Auto, 3)] _BindDataMode ("Use Mesh Bind Data", Int) = 3
+[Enum(UV2, 1, UV3, 2, UV4, 3, UV5, 4, UV6, 5, UV7, 6, UV8, 7)] _BindPositionsSlot ("Bind Positions UV Channel", Int) = 5
+[Enum(UV2, 1, UV3, 2, UV4, 3, UV5, 4, UV6, 5, UV7, 6, UV8, 7)] _BindNormalsSlot ("Bind Normals UV Channel", Int) = 6
+[Enum(UV2, 1, UV3, 2, UV4, 3, UV5, 4, UV6, 5, UV7, 6, UV8, 7)] _BindTangentsSlot ("Bind Tangents UV Channel", Int) = 7
+_WorldRecale ("World Rescale", Float) = 1.0
+[HideInInspector] s_end_PoiRaymarchingBindData ("", Float) = 0
+
+[HideInInspector] m_end_PoiRaymarchingData ("", Float) = 0
+//endex
+
+#T#PoiRaymarchingDataVariables
+//ifex _InternalWaterEnable==0
+#ifdef POI_RAYMARCHING_DATA
+    #if defined(PROP_SDFTEXTURE) || !defined(OPTIMIZER_ENABLED)
+    Texture3D _SDFTexture;
+    #endif
+#endif
+//endex
+
+#T#PoiRaymarchingDataVariablesExposed
+//ifex _InternalWaterEnable==0
+#ifdef POI_RAYMARCHING_DATA
+    #if defined(PROP_SDFTEXTURE) || !defined(OPTIMIZER_ENABLED)
+    float4 _SDFTexture_TexelSize;
+    #endif
+    float _SDFPixelSize;
+    float4 _SDFLowerCorner;
+    float4 _SDFSize;
+    float _MinThickness;
+    int _BindDataMode;
+    int _BindPositionsSlot;
+    int _BindNormalsSlot;
+    int _BindTangentsSlot;
+    float _WorldRecale;
+#endif
+//endex
+
+#T#PoiRaymarchingDataFunctions
+// Baked mesh data shared by every raymarching module.
+//
+// A module opts in from its own keywords template, so a shader that has no raymarching feature
+// enabled carries none of this — no interpolators, no texture, no code:
+//
+//     #ifdef MY_RAYMARCHING_KEYWORD
+//         #define POI_RAYMARCHING_DATA
+//     #endif
+//
+// and adds its enable property to the //ifex lines in this collection so the optimizer can strip
+// the data out of locked materials that don't use it.
+//ifex _InternalWaterEnable==0
+#ifdef POI_RAYMARCHING_DATA
+
+    static const int cSDFRaymarchMaxSteps = 64;
+
+    // Distance from a point inside the mesh to where the ray leaves it, marched through the
+    // baked SDF. Positions are object space, relative to the mesh origin the SDF was baked in.
+    // Falls back to a sphere-ish guess when no SDF has been baked.
+    float PoiGetModelThickness(float3 startPos, float3 marchDir)
+    {
+        float fallbackThickness = max(_MinThickness, -2.0 * dot(startPos, marchDir));
+        #if defined(PROP_SDFTEXTURE) || !defined(OPTIMIZER_ENABLED)
+        if (all(_SDFTexture_TexelSize == 1.0))
+            return fallbackThickness;
+        startPos -= _SDFLowerCorner.xyz;
+        startPos /= _SDFSize.xyz;
+        marchDir /= _SDFSize.xyz;
+        float total = _SDFPixelSize;
+        float minSDFStep = _SDFPixelSize * (1.0 / 3.0);
+        [loop]
+        for (int step = 0; step < cSDFRaymarchMaxSteps; step++)
+        {
+            float3 uvw = startPos + marchDir * total;
+            float d = -_SDFTexture.SampleLevel(sampler_linear_clamp, uvw, 0.0).r;
+            if (d < -_SDFPixelSize) return max(_MinThickness, total + d);
+            total += max(d, minSDFStep);
+        }
+        return max(_MinThickness, total);
+        #else
+        return fallbackThickness;
+        #endif
+    }
+
+    // Unbaked meshes hand the same value to all three slots, so any difference means real data.
+    bool PoiIsBindDataSet(float4 bindPos, float4 bindNorm, float4 bindTan)
+    {
+        const float bindDataEpsilon = 0.0001;
+        bool positionDiffersFromNormal = any(abs(bindPos - bindNorm) > bindDataEpsilon);
+        bool positionDiffersFromTangent = any(abs(bindPos - bindTan) > bindDataEpsilon);
+        bool normalDiffersFromTangent = any(abs(bindNorm - bindTan) > bindDataEpsilon);
+        return positionDiffersFromNormal && positionDiffersFromTangent && normalDiffersFromTangent;
+    }
+
+    // Whether to raymarch in bind space rather than object space: forced on, or on when the
+    // mesh actually carries baked bind data.
+    bool PoiUseBindData(in PoiMesh poiMesh)
+    {
+        return (_BindDataMode == 1) ||
+                (_BindDataMode == 3 && PoiIsBindDataSet(poiMesh.bindPosition, poiMesh.bindNormal, poiMesh.bindTangent));
+    }
+
+#endif
+//endex
+
+#T#PoiRaymarchingDataVertexOutData
+//ifex _InternalWaterEnable==0
+    #ifdef POI_RAYMARCHING_DATA
+        float4 poiBindPosition : TEXCOORD13;
+        float4 poiBindNormal : TEXCOORD14;
+        float4 poiBindTangent : TEXCOORD15;
+    #endif
+//endex
+
+#T#PoiRaymarchingDataVertexMods
+//ifex _InternalWaterEnable==0
+    #ifdef POI_RAYMARCHING_DATA
+        o.poiBindPosition = v.poiBindPosition;
+        o.poiBindNormal = v.poiBindNormal;
+        o.poiBindTangent = v.poiBindTangent;
+    #endif
+//endex
+
+#T#PoiRaymarchingDataPoiMeshFields
+//ifex _InternalWaterEnable==0
+    float4 bindPosition;
+    float4 bindNormal;
+    float4 bindTangent;
+//endex
+
+#T#PoiRaymarchingDataMeshDataInit
+//ifex _InternalWaterEnable==0
+    #ifdef POI_RAYMARCHING_DATA
+        poiMesh.bindPosition = i.poiBindPosition;
+        poiMesh.bindNormal = i.poiBindNormal;
+        poiMesh.bindTangent = i.poiBindTangent;
+    #endif
+//endex

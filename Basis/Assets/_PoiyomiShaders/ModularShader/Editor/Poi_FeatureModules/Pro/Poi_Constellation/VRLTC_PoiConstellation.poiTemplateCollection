@@ -1,0 +1,595 @@
+#T#PoiConstellationProperties
+//ifex _ConstellationEnable==0
+[HideInInspector] m_start_Constellation (" Constellation--{reference_property:_ConstellationEnable,button_help:{text:Tutorial,action:{type:URL,data:https://www.poiyomi.com/special-fx/constellation},hover:Constellation Documentation}}", Float) = 0
+[HideInInspector][ThryToggle(POI_CONSTELLATION)] _ConstellationEnable ("Enable Constellation", Float) = 0
+[ThryWideEnum(Normal, 0, Multiply, 1, Add, 2)]_ConstellationBlendMode ("Blend & UV--{reference_property:_ConstellationUV}", Int) = 2
+[ThryHideInInspector][ThryWideEnum(UV0, 0, UV1, 1, UV2, 2, UV3, 3, Panosphere, 4, World Pos, 5, Local Pos, 8, Polar UV, 6, Distorted UV, 7, Matcap, 9, Screen Space, 10)] _ConstellationUV ("UV", Int) = 0
+_ConstellationColor ("Color--{reference_property:_ConstellationColorThemeIndex}", Color) = (1,1,1,1)
+[ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _ConstellationColorThemeIndex ("", Int) = 0
+_ConstellationEmissionStrength ("Emission Strength", Range(0, 20)) = 3
+
+[HideInInspector] s_start_ConstellationRandomColors ("Random Colors--{reference_property:_ConstellationRandomColors,persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI]_ConstellationRandomColors ("Enable", Float) = 0
+[MultiSlider]_ConstellationSaturationRange ("Saturation Range", Vector) = (0.7, 1, 0, 1)
+[MultiSlider]_ConstellationValueRange ("Value Range", Vector) = (0.8, 1, 0, 1)
+[HideInInspector] s_end_ConstellationRandomColors ("Random Colors", Float) = 0
+
+[HideInInspector] s_start_ConstellationStars ("Stars--{persistent_expand:true,default_expand:true}", Float) = 1
+_ConstellationStarSize ("Star Size", Range(0, 1)) = 0.75
+_ConstellationStarBrightness ("Star Brightness", Range(0, 2)) = 1
+_ConstellationStarMovement ("Star Movement", Range(0, 0.4)) = 0.4
+_ConstellationStarSpeedMultiplier ("Star Speed", Range(0, 5)) = 1
+_ConstellationTwinkleSpeed ("Twinkle Speed", Range(0, 10)) = 5
+[HideInInspector] s_end_ConstellationStars ("", Float) = 0
+
+[HideInInspector] s_start_ConstellationLines ("Lines--{persistent_expand:true,default_expand:true}", Float) = 1
+_ConstellationLineThickness ("Line Thickness", Range(0, 1)) = 0.5
+_ConstellationLineThicknessVariation ("Line Thickness Variation", Range(0, 1)) = 0.7
+_ConstellationLineBrightness ("Line Brightness", Range(0, 2)) = 1
+[HideInInspector] s_end_ConstellationLines ("", Float) = 0
+
+[HideInInspector] s_start_ConstellationPlacement ("Placement & Motion--{persistent_expand:true,default_expand:true}", Float) = 1
+_ConstellationDensity ("Density", Float) = 10
+[Vector2]_ConstellationCenter ("Z Center", Vector) = (0.5, 0.5, 0, 0)
+[Vector3]_ConstellationPanSpeed ("Pan Speed", Vector) = (0,0,0,0)
+[Vector3]_ConstellationOffset ("Offset", Vector) = (0,0,0,0)
+[MultiSlider]_ConstellationLayerFade ("Layer Fade", Vector) = (0.2, 1, 0, 1)
+[HideInInspector] s_end_ConstellationPlacement ("", Float) = 0
+
+[HideInInspector] s_start_ConstellationMasking ("Masking--{persistent_expand:true,default_expand:false}", Float) = 0
+_ConstellationMask ("Mask--{reference_properties:[_ConstellationMaskPan, _ConstellationMaskUV, _ConstellationMaskInvert]}", 2D) = "white" {}
+[ThryHideInInspector][Vector2] _ConstellationMaskPan ("Panning", Vector) = (0, 0, 0, 0)
+[ThryHideInInspector][ToggleUI] _ConstellationMaskInvert ("Invert", Float) = 0
+[ThryHideInInspector][ThryWideEnum(UV0, 0, UV1, 1, UV2, 2, UV3, 3, Panosphere, 4, World Pos, 5, Local Pos, 8, Polar UV, 6, Distorted UV, 7, Matcap, 9, Screen Space, 10)] _ConstellationMaskUV ("UV", Int) = 0
+[ThryWideEnum(Off, 0, 1R, 1, 1G, 2, 1B, 3, 1A, 4, 2R, 5, 2G, 6, 2B, 7, 2A, 8, 3R, 9, 3G, 10, 3B, 11, 3A, 12, 4R, 13, 4G, 14, 4B, 15, 4A, 16)] _ConstellationMaskGlobalMask ("Use Global Mask--{reference_property:_ConstellationMaskGlobalMaskBlendType}", Int) = 0
+[ThryHideInInspector][ThryWideEnum(Add, 7, Subtract, 1, Multiply, 2, Divide, 3, Min, 4, Max, 5, Average, 6, Replace, 0)]_ConstellationMaskGlobalMaskBlendType ("Blending", Int) = 2
+[ThryWideEnum(Off, 0, 1R, 1, 1G, 2, 1B, 3, 1A, 4, 2R, 5, 2G, 6, 2B, 7, 2A, 8, 3R, 9, 3G, 10, 3B, 11, 3A, 12, 4R, 13, 4G, 14, 4B, 15, 4A, 16)] _ConstellationApplyGlobalMaskIndex ("Write to Global Mask--{reference_property:_ConstellationApplyGlobalMaskBlendType}", Int) = 0
+[ThryHideInInspector][ThryWideEnum(Add, 7, Subtract, 1, Multiply, 2, Divide, 3, Min, 4, Max, 5, Average, 6, Replace, 0)] _ConstellationApplyGlobalMaskBlendType ("Blending", Int) = 0
+[HideInInspector] s_end_ConstellationMasking ("", Float) = 0
+
+[HideInInspector] s_start_ConstellationAudioLink ("Audio Link ♫--{reference_property:_ConstellationAudioLinkEnabled,persistent_expand:true,default_expand:false,condition_showS:(_EnableAudioLink==1)}", Float) = 0
+[ThryHideInInspector][ToggleUI]_ConstellationAudioLinkEnabled ("Enable", Float) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALEmissionBand ("Emission Band", Int) = 0
+[VectorLabel(Min, Max)]_ConstellationALEmissionMod ("Emission Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALBrightnessBand ("Star Brightness Band", Int) = 0
+[VectorLabel(Min, Max)]_ConstellationALBrightnessMod ("Star Brightness Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALSizeBand ("Star Size Band", Int) = 0
+[VectorLabel(Min, Max)]_ConstellationALSizeMod ("Star Size Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALLineThicknessBand ("Line Thickness Band", Int) = 0
+[VectorLabel(Min, Max)]_ConstellationALLineThicknessMod ("Line Thickness Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALLineBrightnessBand ("Line Brightness Band", Int) = 0
+[VectorLabel(Min, Max)]_ConstellationALLineBrightnessMod ("Line Brightness Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[ThryWideEnum(Motion increases as intensity of band increases, 0, Above but Smooth, 1, Motion moves back and forth as a function of intensity, 2, Above but Smoooth, 3, Fixed speed increase when the band is dark Stationary when light, 4, Above but Smooooth, 5, Fixed speed increase when the band is dark Fixed speed decrease when light, 6, Above but Smoooooth, 7)]_ConstellationALTwinkleType ("Twinkle Motion Type", Int) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALTwinkleBand ("Twinkle Band", Int) = 0
+_ConstellationALTwinkleSpeed ("Twinkle Speed", Float) = 0
+[ThrySeperator(2, 2, 2)]
+[ThryWideEnum(Motion increases as intensity of band increases, 0, Above but Smooth, 1, Motion moves back and forth as a function of intensity, 2, Above but Smoooth, 3, Fixed speed increase when the band is dark Stationary when light, 4, Above but Smooooth, 5, Fixed speed increase when the band is dark Fixed speed decrease when light, 6, Above but Smoooooth, 7)]_ConstellationALMovementType ("Movement Motion Type", Int) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALMovementBand ("Movement Band", Int) = 0
+_ConstellationALMovementSpeed ("Movement Speed", Float) = 0
+[ThrySeperator(2, 2, 2)]
+[ThryWideEnum(Motion increases as intensity of band increases, 0, Above but Smooth, 1, Motion moves back and forth as a function of intensity, 2, Above but Smoooth, 3, Fixed speed increase when the band is dark Stationary when light, 4, Above but Smooooth, 5, Fixed speed increase when the band is dark Fixed speed decrease when light, 6, Above but Smoooooth, 7)]_ConstellationALHueShiftType ("Hue Shift Motion Type--{condition_showS:(_ConstellationRandomColors==1)}", Int) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALHueShiftBand ("Hue Shift Band--{condition_showS:(_ConstellationRandomColors==1)}", Int) = 0
+_ConstellationALHueShiftSpeed ("Hue Shift Speed--{condition_showS:(_ConstellationRandomColors==1)}", Float) = 0
+[ThrySeperator(2, 2, 2)]
+[ThryWideEnum(Off, 0, AL Theme 0, 1, AL Theme 1, 2, AL Theme 2, 3, AL Theme 3, 4)]_ConstellationALThemeColor ("Theme Color--{condition_showS:(_ConstellationRandomColors==1)}", Int) = 0
+[HideInInspector] ss_start_ConstellationALColorOverrideSS ("Color Override--{reference_property:_ConstellationALColorOverrideEnabled,persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI] _ConstellationALColorOverrideEnabled ("Color Override", Float) = 0
+_ConstellationALColorOverride ("Color", Color) = (1,1,1,1)
+[ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _ConstellationALColorOverrideThemeIndex ("Theme Color", Int) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _ConstellationALColorOverrideBand ("Color Override Band", Int) = 0
+[Ramp4(normalized)]_ConstellationALColorOverrideRamp ("Color Override Ramp", Vector) = (0, 1, 0, 1)
+[HideInInspector] ss_end_ConstellationALColorOverrideSS ("Color Override", Float) = 0
+[HideInInspector] s_end_ConstellationAudioLink ("Audio Link", Float) = 0
+[HideInInspector] m_end_Constellation ("Constellation", Float) = 0
+//endex
+
+#T#PoiConstellationKeywords
+//ifex _ConstellationEnable==0
+#pragma shader_feature_local POI_CONSTELLATION
+//endex
+
+#T#PoiConstellationVariablesExposed
+//ifex _ConstellationEnable==0
+#ifdef POI_CONSTELLATION
+    float _ConstellationEnable;
+    half4 _ConstellationColor;
+    float _ConstellationColorThemeIndex;
+    float _ConstellationDensity;
+    float4 _ConstellationCenter;
+    float4 _ConstellationPanSpeed;
+    float4 _ConstellationOffset;
+    half _ConstellationStarMovement;
+    float _ConstellationStarSpeedMultiplier;
+    half _ConstellationLineThickness;
+    half _ConstellationLineThicknessVariation;
+    half _ConstellationLineBrightness;
+    half _ConstellationStarSize;
+    half _ConstellationStarBrightness;
+    float _ConstellationTwinkleSpeed;
+    half4 _ConstellationLayerFade;
+    float _ConstellationBlendMode;
+    float _ConstellationUV;
+    #if defined(PROP_CONSTELLATIONMASK) || !defined(OPTIMIZER_ENABLED)
+        float4 _ConstellationMask_ST;
+        float4 _ConstellationMaskPan;
+        half _ConstellationMaskInvert;
+        float _ConstellationMaskUV;
+    #endif
+    half _ConstellationMaskGlobalMask;
+    float _ConstellationMaskGlobalMaskBlendType;
+    float _ConstellationApplyGlobalMaskIndex;
+    float _ConstellationApplyGlobalMaskBlendType;
+    half _ConstellationEmissionStrength;
+    half _ConstellationRandomColors;
+    half4 _ConstellationSaturationRange;
+    half4 _ConstellationValueRange;
+    // AudioLink
+    float _ConstellationAudioLinkEnabled;
+    float _ConstellationALEmissionBand;
+    half4 _ConstellationALEmissionMod;
+    float _ConstellationALBrightnessBand;
+    half4 _ConstellationALBrightnessMod;
+    float _ConstellationALSizeBand;
+    half4 _ConstellationALSizeMod;
+    float _ConstellationALLineThicknessBand;
+    half4 _ConstellationALLineThicknessMod;
+    float _ConstellationALLineBrightnessBand;
+    half4 _ConstellationALLineBrightnessMod;
+    float _ConstellationALTwinkleType;
+    float _ConstellationALTwinkleBand;
+    float _ConstellationALTwinkleSpeed;
+    float _ConstellationALMovementType;
+    float _ConstellationALMovementBand;
+    float _ConstellationALMovementSpeed;
+    float _ConstellationALHueShiftType;
+    float _ConstellationALHueShiftBand;
+    float _ConstellationALHueShiftSpeed;
+    float _ConstellationALThemeColor;
+    half _ConstellationALColorOverrideEnabled;
+    half4 _ConstellationALColorOverride;
+    float _ConstellationALColorOverrideThemeIndex;
+    float _ConstellationALColorOverrideBand;
+    half4 _ConstellationALColorOverrideRamp;
+#endif
+//endex
+
+#T#PoiConstellationVariables
+//ifex _ConstellationEnable==0
+#ifdef POI_CONSTELLATION
+    #if defined(PROP_CONSTELLATIONMASK) || !defined(OPTIMIZER_ENABLED)
+        Texture2D _ConstellationMask;
+    #endif
+#endif
+//endex
+
+#T#PoiConstellationFunctions
+//ifex _ConstellationEnable==0
+#ifdef POI_CONSTELLATION
+    float PoiN21(float2 p)
+    {
+        float3 p3 = frac(float3(p.xyx) * float3(0.1031, 0.1030, 0.0973));
+        p3 += dot(p3, p3.yzx + 33.33);
+        return frac((p3.x + p3.y) * p3.z);
+    }
+
+    float2 PoiN22(float2 p)
+    {
+        float n = PoiN21(p);
+        return float2(n, PoiN21(p+n));
+    }
+
+    half3 PoiGetStarColor(float2 cellId, float rand1, float hueShift, half3 themeHSV, bool useThemeColor)
+    {
+        float rand2 = PoiN21(cellId + 17.3);
+        float rand3 = PoiN21(cellId + 41.7);
+
+        if(useThemeColor)
+        {
+            half3 jittered = themeHSV;
+            jittered.x = frac(jittered.x + (rand1 - 0.5) * 0.1); // Slight hue variation
+            jittered.y = saturate(jittered.y * lerp(0.8, 1.2, rand2)); // Slight saturation variation
+            jittered.z = saturate(jittered.z * lerp(0.8, 1.2, rand3)); // Slight value variation
+            return HSVtoRGB(jittered);
+        }
+        
+        half3 hsv;
+        hsv.x = frac(rand1 + hueShift);
+        hsv.y = lerp(_ConstellationSaturationRange.x, _ConstellationSaturationRange.y, rand2);
+        hsv.z = lerp(_ConstellationValueRange.x, _ConstellationValueRange.y, rand3);
+        
+        return HSVtoRGB(hsv);
+    }
+
+    float PoiDistLine(float2 p, float2 a, float2 b)
+    {
+        float2 pa = p-a;
+        float2 ba = b-a;
+        float baLengthSq = dot(ba, ba);
+        float t = clamp(dot(pa, ba) / max(baLengthSq, 1e-8), 0.0, 1.0);
+        return length(pa - ba * t);
+    }
+
+    void PoiComputeLineThickness(float thicknessMod, out float baseThickness, out float minThickness)
+    {
+        float finalThickness = saturate(_ConstellationLineThickness + thicknessMod);
+        baseThickness = lerp(0.005, 0.05, finalThickness);
+        minThickness = lerp(baseThickness, baseThickness * 0.3, _ConstellationLineThicknessVariation);
+    }
+
+    float PoiLine(float2 p, float2 a, float2 b, float baseThickness, float minThickness)
+    {
+        float2 pa = p-a;
+        float2 ba = b-a;
+        float baLengthSq = dot(ba, ba);
+        float t = clamp(dot(pa, ba) / max(baLengthSq, 1e-8), 0.0, 1.0);
+        float d = length(pa - ba * t);
+        float lineLength = sqrt(baLengthSq);
+        float centerThinness = 4.0 * t * (1.0 - t);
+        float thickness = lerp(minThickness, baseThickness, 1.0 - centerThinness);
+        
+        float lineFade = 1.0 - smoothstep(0.0, thickness, d);
+        float lengthFade = smoothstep(1.2, 0.05, lineLength);
+        
+        return lineFade * lengthFade;
+    }
+
+    half4 PoiLineColored(float2 p, float2 a, float2 b, half3 colorA, half3 colorB, float baseThickness, float minThickness)
+    {
+        float2 pa = p-a;
+        float2 ba = b-a;
+        float baLengthSq = dot(ba, ba);
+        float t = clamp(dot(pa, ba) / max(baLengthSq, 1e-8), 0.0, 1.0);
+        float d = length(pa - ba * t);
+        float lineLength = sqrt(baLengthSq);
+        float centerThinness = 4.0 * t * (1.0 - t);
+        float thickness = lerp(minThickness, baseThickness, 1.0 - centerThinness);
+        
+        float lineFade = 1.0 - smoothstep(0.0, thickness, d);
+        float lengthFade = smoothstep(1.2, 0.05, lineLength);
+        
+        half intensity = lineFade * lengthFade;
+        half3 blendedColor = lerp(colorA, colorB, t);
+        
+        return float4(blendedColor, intensity);
+    }
+
+    float2 PoiGetPos(float2 cellId, float2 off, float wrappedTime, out float cellHash)
+    {
+        cellHash = PoiN21(cellId);
+        float2 n = float2(cellHash, PoiN21(cellId + cellHash)) * wrappedTime;
+        return off + sin(n) * _ConstellationStarMovement;
+    }
+
+    float PoiLayer(float2 uv, float time, float sizeMod, float brightnessMod, float twinkleMod, float movementMod, float lineThicknessMod, float lineBrightnessMod)
+    {
+        time = fmod(time, UNITY_TWO_PI * 2048.0);
+
+        float2 gv = frac(uv) - 0.5;
+        float2 id = floor(uv);
+        float lines = 0.0;
+        half sparkles = 0.0;
+
+        float movementTime = fmod(time * _ConstellationStarSpeedMultiplier + movementMod, UNITY_TWO_PI * 2048.0);
+        float unusedHash;
+        float2 center = PoiGetPos(id, float2(0.0, 0.0), movementTime, unusedHash);
+        float2 p1 = 0.0, p3 = 0.0, p5 = 0.0, p7 = 0.0;
+
+        float t = time * _ConstellationTwinkleSpeed + twinkleMod;
+        float starSize = saturate(_ConstellationStarSize + sizeMod);
+        half starBrightness = max(0, _ConstellationStarBrightness + brightnessMod);
+        float sizeScale = (1-starSize*0.75);
+
+        float baseThickness, minThickness;
+        PoiComputeLineThickness(lineThicknessMod, baseThickness, minThickness);
+
+        int i = 0;
+        for(float y=-1.0;y<=1.0;y++){
+            for(float x=-1.0;x<=1.0;x++){
+                float2 off = float2(x, y);
+                float2 p = center;
+                if(i != 4)
+                {
+                    p = PoiGetPos(id + off, off, movementTime, unusedHash);
+                    lines += PoiLine(gv, center, p, baseThickness, minThickness);
+                }
+
+                if(i == 1) p1 = p;
+                else if(i == 3) p3 = p;
+                else if(i == 5) p5 = p;
+                else if(i == 7) p7 = p;
+
+                float2 vec = (p - gv) * 30.0 * sizeScale;
+                half sparkle = min(1.0/max(dot(vec, vec), 0.01), 5.0);
+                sparkles += sparkle*(sin(t+frac(p.x)*10.0)*0.5 + 0.5);
+                i++;
+            }
+        }
+        
+        lines += PoiLine(gv, p1, p3, baseThickness, minThickness);
+        lines += PoiLine(gv, p1, p5, baseThickness, minThickness);
+        lines += PoiLine(gv, p3, p7, baseThickness, minThickness);
+        lines += PoiLine(gv, p5, p7, baseThickness, minThickness);
+        
+        half finalLineBrightness = max(0, _ConstellationLineBrightness + lineBrightnessMod);
+        lines = min(lines * finalLineBrightness, 1.0);
+        sparkles = min(sparkles * starBrightness / 4.0, 1.0);
+        
+        return min(lines + sparkles, 1.0);
+    }
+
+    half4 PoiLayerColored(float2 uv, float time, float sizeMod, float brightnessMod, float twinkleMod, float movementMod, float lineThicknessMod, float lineBrightnessMod, float hueShift, half3 themeHSV, bool useThemeColor)
+    {
+        time = fmod(time, UNITY_TWO_PI * 2048.0);
+
+        float2 gv = frac(uv) - 0.5;
+        float2 id = floor(uv);
+        half3 lineColor = half3(0, 0, 0);
+        half lineIntensity = 0.0;
+        half3 sparkleColor = half3(0, 0, 0);
+        half sparkleIntensity = 0.0;
+
+        float movementTime = fmod(time * _ConstellationStarSpeedMultiplier + movementMod, UNITY_TWO_PI * 2048.0);
+        float centerHash;
+        float2 center = PoiGetPos(id, float2(0.0, 0.0), movementTime, centerHash);
+        half3 centerColor = PoiGetStarColor(id, centerHash, hueShift, themeHSV, useThemeColor);
+
+        float t = time * _ConstellationTwinkleSpeed + twinkleMod;
+        float centerTwinkle = sin(t+frac(center.x)*10.0)*0.5 + 0.5;
+        float starSize = saturate(_ConstellationStarSize + sizeMod);
+        half starBrightness = max(0, _ConstellationStarBrightness + brightnessMod);
+        float sizeScale = (1-starSize*0.75);
+
+        float baseThickness, minThickness;
+        PoiComputeLineThickness(lineThicknessMod, baseThickness, minThickness);
+
+        float2 p1 = 0.0, p3 = 0.0, p5 = 0.0, p7 = 0.0;
+        half3 c1 = 0.0, c3 = 0.0, c5 = 0.0, c7 = 0.0;
+        half tw1 = 0.0, tw3 = 0.0, tw5 = 0.0, tw7 = 0.0;
+        int i = 0;
+        for(float y=-1.0;y<=1.0;y++){
+            for(float x=-1.0;x<=1.0;x++){
+                float2 off = float2(x, y);
+                float2 p = center;
+                half3 starColor = centerColor;
+                half twinkle = centerTwinkle;
+                if(i != 4)
+                {
+                    float cellHash;
+                    float2 cellId = id + off;
+                    p = PoiGetPos(cellId, off, movementTime, cellHash);
+                    starColor = PoiGetStarColor(cellId, cellHash, hueShift, themeHSV, useThemeColor);
+                    twinkle = sin(t+frac(p.x)*10.0)*0.5 + 0.5;
+
+                    half lineTwinkle = (centerTwinkle + twinkle) * 0.5;
+                    half4 lineResult = PoiLineColored(gv, center, p, centerColor, starColor, baseThickness, minThickness);
+                    lineColor += lineResult.rgb * lineResult.a * lineTwinkle;
+                    lineIntensity += lineResult.a * lineTwinkle;
+                }
+
+                if(i == 1) { p1 = p; c1 = starColor; tw1 = twinkle; }
+                else if(i == 3) { p3 = p; c3 = starColor; tw3 = twinkle; }
+                else if(i == 5) { p5 = p; c5 = starColor; tw5 = twinkle; }
+                else if(i == 7) { p7 = p; c7 = starColor; tw7 = twinkle; }
+
+                float2 vec = (p - gv) * 30.0 * sizeScale;
+                half sparkle = min(1.0/max(dot(vec, vec), 0.01), 5.0) * twinkle;
+
+                sparkleColor += starColor * sparkle;
+                sparkleIntensity += sparkle;
+                i++;
+            }
+        }
+
+        // The four cross-neighbor paths reuse the values retained by the combined pass.
+        half twinkle13 = (tw1 + tw3) * 0.5;
+        half twinkle15 = (tw1 + tw5) * 0.5;
+        half twinkle37 = (tw3 + tw7) * 0.5;
+        half twinkle57 = (tw5 + tw7) * 0.5;
+
+        half4 lineResult1 = PoiLineColored(gv, p1, p3, c1, c3, baseThickness, minThickness);
+        half4 lineResult2 = PoiLineColored(gv, p1, p5, c1, c5, baseThickness, minThickness);
+        half4 lineResult3 = PoiLineColored(gv, p3, p7, c3, c7, baseThickness, minThickness);
+        half4 lineResult4 = PoiLineColored(gv, p5, p7, c5, c7, baseThickness, minThickness);
+        
+        lineColor += lineResult1.rgb * lineResult1.a * twinkle13;
+        lineColor += lineResult2.rgb * lineResult2.a * twinkle15;
+        lineColor += lineResult3.rgb * lineResult3.a * twinkle37;
+        lineColor += lineResult4.rgb * lineResult4.a * twinkle57;
+        lineIntensity += lineResult1.a * twinkle13 + lineResult2.a * twinkle15 + lineResult3.a * twinkle37 + lineResult4.a * twinkle57;
+        
+        half finalLineBrightness = max(0, _ConstellationLineBrightness + lineBrightnessMod);
+        lineIntensity = min(lineIntensity * finalLineBrightness, 1.0);
+        sparkleIntensity = min(sparkleIntensity * starBrightness / 4.0, 1.0);
+        
+        half totalIntensity = min(lineIntensity + sparkleIntensity, 1.0);
+        half3 finalColor = half3(0, 0, 0);
+        if(totalIntensity > 0.001)
+        {
+            finalColor = (lineColor * finalLineBrightness + sparkleColor * starBrightness / 4.0) / (lineIntensity + sparkleIntensity + 0.001);
+        }
+        
+        return float4(finalColor, totalIntensity);
+    }
+
+    void applyConstellation(inout PoiFragData poiFragData, in PoiMesh poiMesh, in PoiMods poiMods)
+    {
+        if(_ConstellationEnable < 0.5) return;
+
+        half4 constellationColorFinal = _ConstellationColor;
+        if(_ConstellationColorThemeIndex > 0)
+        {
+            constellationColorFinal.rgb = poiThemeColor(poiMods, _ConstellationColor.rgb, _ConstellationColorThemeIndex);
+        }
+
+        half mask = 1.0;
+        #if defined(PROP_CONSTELLATIONMASK) || !defined(OPTIMIZER_ENABLED)
+            mask = POI2D_SAMPLER_PAN(_ConstellationMask, _MainTex, poiUV(poiMesh.uv[_ConstellationMaskUV], _ConstellationMask_ST), _ConstellationMaskPan).r;
+        #endif
+        if(_ConstellationMaskInvert >= 0.5)
+        {
+            mask = 1.0 - mask;
+        }
+        
+        if(_ConstellationMaskGlobalMask > 0)
+        {
+            mask = maskBlend(mask, poiMods.globalMask[_ConstellationMaskGlobalMask - 1], _ConstellationMaskGlobalMaskBlendType);
+        }
+        
+        if(mask == 0.0) 
+        {
+            return;
+        }
+
+        half alEmissionMod = 0;
+        half alBrightnessMod = 0;
+        float alSizeMod = 0;
+        float alLineThicknessMod = 0;
+        half alLineBrightnessMod = 0;
+        float alTwinkleMod = 0;
+        float alMovementMod = 0;
+        float alHueShift = 0;
+        half3 alThemeColor = half3(1, 1, 1);
+        bool alUseThemeColor = false;
+        
+        #ifdef POI_AUDIOLINK
+            if(poiMods.audioLinkAvailable && _ConstellationAudioLinkEnabled >= 0.5)
+            {
+                // Intensity-reactive modifiers
+                alEmissionMod = lerp(_ConstellationALEmissionMod.x, _ConstellationALEmissionMod.y, poiMods.audioLink[_ConstellationALEmissionBand]);
+                alBrightnessMod = lerp(_ConstellationALBrightnessMod.x, _ConstellationALBrightnessMod.y, poiMods.audioLink[_ConstellationALBrightnessBand]);
+                alSizeMod = lerp(_ConstellationALSizeMod.x, _ConstellationALSizeMod.y, poiMods.audioLink[_ConstellationALSizeBand]);
+                alLineThicknessMod = lerp(_ConstellationALLineThicknessMod.x, _ConstellationALLineThicknessMod.y, poiMods.audioLink[_ConstellationALLineThicknessBand]);
+                alLineBrightnessMod = lerp(_ConstellationALLineBrightnessMod.x, _ConstellationALLineBrightnessMod.y, poiMods.audioLink[_ConstellationALLineBrightnessBand]);
+                
+                // Chronotensity-based modifiers
+                alTwinkleMod = AudioLinkGetChronoTime(_ConstellationALTwinkleType, _ConstellationALTwinkleBand) * _ConstellationALTwinkleSpeed;
+                alMovementMod = AudioLinkGetChronoTime(_ConstellationALMovementType, _ConstellationALMovementBand) * _ConstellationALMovementSpeed;
+                
+                // Color modifiers (only used when random colors enabled)
+                if(_ConstellationRandomColors >= 0.5)
+                {
+                    alHueShift = AudioLinkGetChronoTime(_ConstellationALHueShiftType, _ConstellationALHueShiftBand) * _ConstellationALHueShiftSpeed;
+                    if(_ConstellationALThemeColor > 0)
+                    {
+                        alUseThemeColor = true;
+                        alThemeColor = AudioLinkData(ALPASS_THEME_COLOR0 + uint2(_ConstellationALThemeColor - 1, 0)).rgb;
+                    }
+                }
+            }
+        #endif
+
+        float2 constellationUV = poiMesh.uv[_ConstellationUV].xy;
+
+        float2 uv = constellationUV - _ConstellationCenter.xy;
+        uv *= _ConstellationDensity;
+        
+        float t = POI_TIME.y * _ConstellationPanSpeed.z / _ConstellationDensity + _ConstellationOffset.z;
+        
+        uv += (_ConstellationPanSpeed.xy / _ConstellationDensity) * POI_TIME.y + _ConstellationOffset.xy;
+        
+        half constellationMask = 0.0;
+        half3 constellationColor = half3(0, 0, 0);
+
+        half3 alThemeHSV = RGBtoHSV(alThemeColor);
+
+        UNITY_BRANCH
+        if(_ConstellationRandomColors >= 0.5)
+        {
+            half3 accumulatedColor = half3(0, 0, 0);
+            half accumulatedIntensity = 0.0;
+            
+            [unroll]
+            for (int layer = 0; layer < 4; ++layer)
+            {
+                float i = layer * 0.25;
+                float z = frac(i+t);
+                float size = lerp(10.0, 0.5, z);
+                // Fade based on layer depth: z=0 is back (use min), z=1 is front (use max)
+                half fade = lerp(_ConstellationLayerFade.x, _ConstellationLayerFade.y, z);
+                
+                half4 layerResult = PoiLayerColored(uv * size + i*24.0, POI_TIME.y, alSizeMod, alBrightnessMod, alTwinkleMod, alMovementMod, alLineThicknessMod, alLineBrightnessMod, alHueShift, alThemeHSV, alUseThemeColor);
+                accumulatedColor += layerResult.rgb * layerResult.a * fade;
+                accumulatedIntensity += layerResult.a * fade;
+            }
+            
+            constellationMask = min(accumulatedIntensity, 1.0) * mask;
+            if(accumulatedIntensity > 0.001)
+            {
+                constellationColor = accumulatedColor / accumulatedIntensity * constellationMask;
+            }
+        }
+        else
+        {
+            half m = 0.0;
+            [unroll]
+            for (int layer = 0; layer < 4; ++layer)
+            {
+                float i = layer * 0.25;
+                float z = frac(i+t);
+                float size = lerp(10.0, 0.5, z);
+                // Fade based on layer depth: z=0 is back (use min), z=1 is front (use max)
+                half fade = lerp(_ConstellationLayerFade.x, _ConstellationLayerFade.y, z);
+                
+                m += PoiLayer(uv * size + i*24.0, POI_TIME.y, alSizeMod, alBrightnessMod, alTwinkleMod, alMovementMod, alLineThicknessMod, alLineBrightnessMod) * fade;
+            }
+            
+            m = min(m, 1.0);
+            m *= mask;
+            constellationMask = m;
+            constellationColor = m * constellationColorFinal.rgb;
+        }
+        
+        #ifdef POI_AUDIOLINK
+            UNITY_BRANCH
+            if(_ConstellationAudioLinkEnabled >= 0.5 && _ConstellationALColorOverrideEnabled >= 0.5 && poiMods.audioLinkAvailable)
+            {
+                half alColorOverrideIntensity = poiMods.audioLink[_ConstellationALColorOverrideBand];
+                half alColorOverrideBlend = evalRamp4(alColorOverrideIntensity, _ConstellationALColorOverrideRamp);
+                if(alColorOverrideBlend > 0)
+                {
+                    half3 alOverrideColor = _ConstellationALColorOverride.rgb;
+                    if(_ConstellationALColorOverrideThemeIndex > 0)
+                    {
+                        alOverrideColor = poiThemeColor(poiMods, alOverrideColor, _ConstellationALColorOverrideThemeIndex);
+                    }
+                    constellationColor = lerp(constellationColor, alOverrideColor * constellationMask, alColorOverrideBlend);
+                }
+            }
+        #endif
+
+        if(_ConstellationBlendMode == 0)
+        {
+            poiFragData.baseColor = lerp(poiFragData.baseColor, constellationColor, constellationMask);
+        }
+        else if(_ConstellationBlendMode == 1)
+        {
+            poiFragData.baseColor = lerp(poiFragData.baseColor, poiFragData.baseColor * constellationColor, constellationMask);
+        }
+        else
+        {
+            poiFragData.baseColor += constellationColor * constellationMask;
+        }
+        
+        half finalEmissionStrength = _ConstellationEmissionStrength + alEmissionMod;
+        poiFragData.emission += constellationColor * constellationMask * finalEmissionStrength;
+        
+        if(_ConstellationApplyGlobalMaskIndex > 0)
+        {
+            applyToGlobalMask(poiMods, _ConstellationApplyGlobalMaskIndex - 1, _ConstellationApplyGlobalMaskBlendType, constellationMask);
+        }
+    }
+#endif
+//endex
+
+#T#PoiConstellationFunctionCall
+//ifex _ConstellationEnable==0
+#ifdef POI_CONSTELLATION
+    applyConstellation(poiFragData, poiMesh, poiMods);
+    #K#CONSTELLATION_HOOK
+#endif
+//endex

@@ -870,6 +870,17 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "town.mr.vrsl-urp": {
+      "version": "https://github.com/towneh/vrsl-urp.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "17.0.0",
+        "com.unity.ugui": "2.0.0",
+        "com.llealloo.audiolink": "3.1.2"
+      },
+      "hash": "af9532d2f171476cd4e9a5fa9be3e36bc6b36346"
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

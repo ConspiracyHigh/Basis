@@ -1,0 +1,7 @@
+{
+    "name": "Poi.ShaderSectionTests",
+    "references": ["Poiyomi.ModularShaderSystem", "Poi.Tools", "ThryAssemblyDefinition"],
+    "includePlatforms": ["Editor"],
+    "optionalUnityReferences": ["TestAssemblies"],
+    "autoReferenced": false
+}

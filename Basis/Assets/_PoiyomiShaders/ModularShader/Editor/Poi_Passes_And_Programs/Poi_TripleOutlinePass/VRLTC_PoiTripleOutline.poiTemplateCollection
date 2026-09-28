@@ -1,0 +1,693 @@
+#T#PoiTripleOutlineKeywords
+#define POI_TRIPLE_OUTLINE
+#pragma vertex poiTripleOutlineVert
+#pragma geometry poiTripleOutlineGeom
+#pragma fragment frag
+#pragma require geometry
+#K#OUTLINE_PASS_KEYWORDS
+
+#T#PoiTripleOutlineLayer1Header
+[HideInInspector] s_start_OutlineLayer1 ("Layer 1--{persistent_expand:true,default_expand:true}", Float) = 1
+
+#T#PoiTripleOutlineProperties
+[HideInInspector] s_end_OutlineLayer1 ("Layer 1", Float) = 0
+
+[HideInInspector] s_start_OutlineLayer2 ("Layer 2--{persistent_expand:true,default_expand:true}", Float) = 1
+// Size
+_Outline2Width ("Size", Float) = 2
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2MaskChannel ("Size Mask", Float) = 0
+
+// Color
+_Outline2Color ("Color--{reference_property:_Outline2ColorThemeIndex}", Color) = (1, 1, 1, 1)
+[ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _Outline2ColorThemeIndex ("", Int) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2ColorMaskChannel ("Color Mask", Float) = 4
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2AlphaMaskChannel ("Alpha Mask", Float) = 4
+_Outline2Emission ("Outline Emission", Range(0, 20)) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2EmissionMaskChannel ("Emission Mask", Float) = 4
+_Outline2EdgeFade ("Edge Fade", Range(0, 1)) = 0
+
+// Expansion
+[Enum(Basic, 1, Rim Light, 2, Directional, 3, DropShadow, 4)]_Outline2ExpansionMode ("Mode", Int) = 1
+[Enum(Local, 0, World, 1)]_Outline2Space ("Space", Int) = 0
+_Outline2RimLightBlend ("Rim Light Blend--{condition_show:_Outline2ExpansionMode==2}", Range(0, 1)) = 0
+[Vector2]_Outline2PersonaDirection ("Directional Offset--{condition_show:_Outline2ExpansionMode==3}", Vector) = (1, 0, 0, 0)
+[Vector3]_Outline2DropShadowOffset ("Drop Direction--{condition_show:_Outline2ExpansionMode==4}", Vector) = (1, 0, 0, 0)
+
+// Texture
+[sRGBWarning(true)]_Outline2Texture ("Outline Texture--{reference_properties:[_Outline2TexturePan, _Outline2TextureUV]}", 2D) = "white" { }
+[ThryHideInInspector][Vector2]_Outline2TexturePan ("Outline Texture Pan", Vector) = (0, 0, 0, 0)
+[ThryHideInInspector][ThryWideEnum(UV0, 0, UV1, 1, UV2, 2, UV3, 3, Panosphere, 4, World Pos, 5, Local Pos, 8, Polar UV, 6, Distorted UV, 7, Matcap, 9, Screen Space, 10)] _Outline2TextureUV ("UV", Int) = 0
+_Outline2TintMix ("Main Texture Blend", Range(0, 1)) = 0
+[ToggleUI]_PoiUTSStyleOutlineBlend2 ("UTS2-style Blend", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2TextureBlendMaskChannel ("Texture Blend Mask", Float) = 4
+
+[HideInInspector] s_start_OutlineHighlightLayer2 ("Highlight--{reference_property:_Outline2HighlightEnabled,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)]_Outline2HighlightEnabled ("Highlight", Float) = 0
+_Outline2HighlightColor ("Highlight Color--{reference_property:_Outline2HighlightColorThemeIndex}", Color) = (1, 0.48, 0, 1)
+[ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _Outline2HighlightColorThemeIndex ("", Int) = 0
+_Outline2HighlightEmission ("Highlight Emission--{tooltip:Added on top of the outline emission so the highlight can glow on a non-emissive outline.}", Range(0, 20)) = 0
+[ToggleUI]_Outline2HighlightApplyTex ("Tint From Outline Texture", Float) = 0
+_Outline2HighlightBorder ("Border", Range(0, 1)) = 0.85
+_Outline2HighlightBlur ("Blur", Range(0, 1)) = 0.1
+[ToggleUI]_Outline2HighlightReceiveShadow ("Receive Shadow", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2HighlightMaskChannel ("Highlight Mask", Float) = 4
+[HideInInspector] s_end_OutlineHighlightLayer2 ("Highlight", Float) = 0
+
+[HideInInspector] s_start_OutlineColorAdjustLayer2 ("Color Adjust--{reference_property:_Outline2HueShift,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)]_Outline2HueShift ("Color Adjust", Float) = 0
+
+[ThryWideEnum(OKLab, 0, HSV, 1)] _Outline2HueShiftColorSpace ("Color Space", Int) = 0
+_Outline2HueOffsetSpeed ("Shift Speed", Float) = 0
+_Outline2Hue ("Hue", Range(0, 1)) = 0
+
+[ThryWideEnum(Saturation Value (old), 0, Saturation Brightness, 1)] _Outline2SaturationMethod ("Saturation Style", Int) = 1
+// Old
+_Outline2Saturation ("Saturation--{condition_show:(_Outline2SaturationMethod==0)}", Range(0, 2)) = 1
+_Outline2Value ("Value--{condition_show:(_Outline2SaturationMethod==0)}", Range(0, 2)) = 1
+// New
+_Outline2Saturation ("Saturation--{condition_show:(_Outline2SaturationMethod==1)}", Range(-1, 10)) = 0
+_Outline2Brightness ("Brightness--{condition_show:(_Outline2SaturationMethod==1)}", Range(-1, 2)) = 0
+
+_Outline2Gamma ("Gamma", Range(0.01, 2)) = 1
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2ColorAdjustMaskChannel ("Color Adjust Mask", Float) = 4
+[HideInInspector] s_end_OutlineColorAdjustLayer2 ("Color Adjust", Float) = 0
+
+[HideInInspector] s_start_OutlineAlphaDistanceFadeLayer2 ("Distance Alpha--{reference_property:_Outline2AlphaDistanceFade,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)] _Outline2AlphaDistanceFade ("Distance Alpha", Float) = 0
+[Enum(Object Position, 0, Pixel Position, 1)] _Outline2AlphaDistanceFadeType ("Pos To Use", Int) = 1
+_Outline2AlphaDistanceFadeMinAlpha ("Min Distance Alpha", Range(0, 1)) = 0
+_Outline2AlphaDistanceFadeMaxAlpha ("Max Distance Alpha", Range(0, 1)) = 1
+_Outline2AlphaDistanceFadeMin ("Min Distance", Float) = 0
+_Outline2AlphaDistanceFadeMax ("Max Distance", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2DistanceFadeMaskChannel ("Distance Fade Mask", Float) = 4
+[HideInInspector] s_end_OutlineAlphaDistanceFadeLayer2 ("Distance Alpha", Float) = 0
+
+[HideInInspector] s_start_OutlineFixedSizeLayer2 ("Fixed Size Over Distance--{reference_property:_Outline2FixedSize,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)]_Outline2FixedSize ("Fixed Size", Float) = 1
+_Outline2FixWidth ("Fixed Width ", Range(0, 1)) = .5
+_Outline2MaxDistance ("Fixed Size Max Distance", Float) = 1
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2FixedSizeMaskChannel ("Fixed Size Mask", Float) = 4
+[HideInInspector] s_end_OutlineFixedSizeLayer2 ("Color Adjust", Float) = 0
+
+[HideInInspector] s_start_OutlineLightingLayer2 ("Lighting--{reference_property:_Outline2Lit,persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI]_Outline2Lit ("Enable Lighting", Float) = 1
+_Outline2ShadowStrength ("Shadow Strength", Range(0, 1)) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2LightingMaskChannel ("Lighting Mask", Float) = 4
+[HideInInspector] s_end_OutlineLightingLayer2 ("Lighting", Float) = 0
+
+[HideInInspector] s_start_VertexColorsLayer2 ("Vertex Colors--{persistent_expand:true,default_expand:false}", Float) = 0
+[ToggleUI]_Outline2UseVertexColorNormals ("Vertex Color Normals", Float) = 0
+[Enum(Off, 0, R, 1, G, 2, B, 3, A, 4)]_Outline2VertexColorMask ("Vertex Color Mask", Float) = 0
+_Outline2VertexColorMaskStrength ("VC Mask Strength--{condition_showS:(_Outline2VertexColorMask!=0)}", Range(0, 1)) = 1
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2VertexColorMaskChannel ("VC Mask", Float) = 4
+[HideInInspector] s_end_VertexColorsLayer2 ("Vertex Colors", Float) = 0
+
+[HideInInspector] s_start_OutlineAudioLinkLayer2 ("Audio Link ♫--{ condition_showS:_EnableAudioLink==1,persistent_expand:true,default_expand:false}", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline2AudioLinkMaskChannel ("Audio Link Mask", Float) = 4
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline2SizeBand ("Size Band", Int) = 0
+[VectorLabel(Min, Max)]_AudioLinkOutline2Size ("Size Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline2EmissionBand ("Emission Band", Int) = 0
+[VectorLabel(Min, Max)]_AudioLinkOutline2Emission ("Emission Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline2HighlightEmissionBand ("Highlight Emission Band--{condition_showS:(_Outline2HighlightEnabled==1)}", Int) = 0
+[VectorLabel(Min, Max)]_AudioLinkOutline2HighlightEmission ("Highlight Emission Mod--{condition_showS:(_Outline2HighlightEnabled==1)}", Vector) = (0, 0, 0, 0)
+
+[HideInInspector] ss_start_outline_al_colorLayer2 ("Color Override--{reference_property:_Outline2ALColorEnabled,persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI]_Outline2ALColorEnabled ("Enable", Float) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline2ColorBand ("Band", Int) = 0
+_AudioLinkOutline2Color ("Color", Color) = (1, 1, 1, 1)
+[ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _AudioLinkOutline2ColorThemeIndex ("Theme Color", Int) = 0
+[Ramp4(normalized)]_AudioLinkOutline2ColorRamp ("Color Override Ramp", Vector) = (0, 1, 0, 1)
+[HideInInspector] ss_end_outline_al_colorLayer2 ("Color Override--{draw_border:true}", Float) = 0
+
+[HideInInspector] ss_start_outline_al_highlight_colorLayer2 ("Highlight Color Override--{reference_property:_Outline2HighlightALColorEnabled,condition_showS:(_Outline2HighlightEnabled==1),persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI]_Outline2HighlightALColorEnabled ("Enable", Float) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline2HighlightColorBand ("Band", Int) = 0
+_AudioLinkOutline2HighlightColor ("Color", Color) = (1, 1, 1, 1)
+[ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _AudioLinkOutline2HighlightColorThemeIndex ("Theme Color", Int) = 0
+[Ramp4(normalized)]_AudioLinkOutline2HighlightColorRamp ("Color Override Ramp", Vector) = (0, 1, 0, 1)
+[HideInInspector] ss_end_outline_al_highlight_colorLayer2 ("Highlight Color Override--{draw_border:true}", Float) = 0
+
+[HideInInspector] s_end_OutlineAudioLinkLayer2 ("Audio Link", Float) = 0
+
+[HideInInspector] s_start_OutlineLayerRenderingLayer2 ("Layer Rendering Options", Float) = 0
+[ToggleUI]_Outline2ClipAtZeroWidth ("Clip 0 Width", Float) = 1
+[ToggleUI]_Outline2OverrideAlpha ("Override Base Alpha", Float) = 0
+[HideInInspector] s_start_OutlineZOffsetLayer2 ("Outline Z Offset--{persistent_expand:true,default_expand:false}", Float) = 0
+_Offset_Z2 ("Overall Strength", Float) = 0
+[ThrySeperator(2, 2, 2)]
+[Enum(R, 0, G, 1, B, 2, A, 3)]_Outline2ZOffsetChannel ("Z Offset Mask", Float) = 0
+_Outline2ZOffsetMaskStrength ("Mask Strength", Range(0, 1)) = 1
+[ToggleUI]_Outline2ZOffsetInvertMaskChannel ("Invert Mask", Float) = 0
+[ThrySeperator(2, 2, 2)]
+[Enum(Off, 0, R, 1, G, 2, B, 3, A, 4)]_Outline2ZOffsetVertexColor ("Vertex Color Channel", Float) = 0
+_Outline2ZOffsetVertexColorStrength ("Vertex Color Strength", Range(0, 1)) = 1
+[HideInInspector] s_end_OutlineZOffsetLayer2 ("", Float) = 0
+[HideInInspector] s_end_OutlineLayerRenderingLayer2 ("Layer Rendering Options", Float) = 0
+
+[HideInInspector] s_end_OutlineLayer2 ("Layer 2", Float) = 0
+
+[HideInInspector] s_start_OutlineLayer3 ("Layer 3--{persistent_expand:true,default_expand:true}", Float) = 1
+// Size
+_Outline3Width ("Size", Float) = 3
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3MaskChannel ("Size Mask", Float) = 0
+
+// Color
+_Outline3Color ("Color--{reference_property:_Outline3ColorThemeIndex}", Color) = (0, 0, 0, 1)
+[ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _Outline3ColorThemeIndex ("", Int) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3ColorMaskChannel ("Color Mask", Float) = 4
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3AlphaMaskChannel ("Alpha Mask", Float) = 4
+_Outline3Emission ("Outline Emission", Range(0, 20)) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3EmissionMaskChannel ("Emission Mask", Float) = 4
+_Outline3EdgeFade ("Edge Fade", Range(0, 1)) = 0
+
+// Expansion
+[Enum(Basic, 1, Rim Light, 2, Directional, 3, DropShadow, 4)]_Outline3ExpansionMode ("Mode", Int) = 1
+[Enum(Local, 0, World, 1)]_Outline3Space ("Space", Int) = 0
+_Outline3RimLightBlend ("Rim Light Blend--{condition_show:_Outline3ExpansionMode==2}", Range(0, 1)) = 0
+[Vector2]_Outline3PersonaDirection ("Directional Offset--{condition_show:_Outline3ExpansionMode==3}", Vector) = (1, 0, 0, 0)
+[Vector3]_Outline3DropShadowOffset ("Drop Direction--{condition_show:_Outline3ExpansionMode==4}", Vector) = (1, 0, 0, 0)
+
+// Texture
+[sRGBWarning(true)]_Outline3Texture ("Outline Texture--{reference_properties:[_Outline3TexturePan, _Outline3TextureUV]}", 2D) = "white" { }
+[ThryHideInInspector][Vector2]_Outline3TexturePan ("Outline Texture Pan", Vector) = (0, 0, 0, 0)
+[ThryHideInInspector][ThryWideEnum(UV0, 0, UV1, 1, UV2, 2, UV3, 3, Panosphere, 4, World Pos, 5, Local Pos, 8, Polar UV, 6, Distorted UV, 7, Matcap, 9, Screen Space, 10)] _Outline3TextureUV ("UV", Int) = 0
+_Outline3TintMix ("Main Texture Blend", Range(0, 1)) = 0
+[ToggleUI]_PoiUTSStyleOutlineBlend3 ("UTS2-style Blend", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3TextureBlendMaskChannel ("Texture Blend Mask", Float) = 4
+
+[HideInInspector] s_start_OutlineHighlightLayer3 ("Highlight--{reference_property:_Outline3HighlightEnabled,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)]_Outline3HighlightEnabled ("Highlight", Float) = 0
+_Outline3HighlightColor ("Highlight Color--{reference_property:_Outline3HighlightColorThemeIndex}", Color) = (1, 0.48, 0, 1)
+[ThryHideInInspector][ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _Outline3HighlightColorThemeIndex ("", Int) = 0
+_Outline3HighlightEmission ("Highlight Emission--{tooltip:Added on top of the outline emission so the highlight can glow on a non-emissive outline.}", Range(0, 20)) = 0
+[ToggleUI]_Outline3HighlightApplyTex ("Tint From Outline Texture", Float) = 0
+_Outline3HighlightBorder ("Border", Range(0, 1)) = 0.85
+_Outline3HighlightBlur ("Blur", Range(0, 1)) = 0.1
+[ToggleUI]_Outline3HighlightReceiveShadow ("Receive Shadow", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3HighlightMaskChannel ("Highlight Mask", Float) = 4
+[HideInInspector] s_end_OutlineHighlightLayer3 ("Highlight", Float) = 0
+
+[HideInInspector] s_start_OutlineColorAdjustLayer3 ("Color Adjust--{reference_property:_Outline3HueShift,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)]_Outline3HueShift ("Color Adjust", Float) = 0
+
+[ThryWideEnum(OKLab, 0, HSV, 1)] _Outline3HueShiftColorSpace ("Color Space", Int) = 0
+_Outline3HueOffsetSpeed ("Shift Speed", Float) = 0
+_Outline3Hue ("Hue", Range(0, 1)) = 0
+
+[ThryWideEnum(Saturation Value (old), 0, Saturation Brightness, 1)] _Outline3SaturationMethod ("Saturation Style", Int) = 1
+// Old
+_Outline3Saturation ("Saturation--{condition_show:(_Outline3SaturationMethod==0)}", Range(0, 2)) = 1
+_Outline3Value ("Value--{condition_show:(_Outline3SaturationMethod==0)}", Range(0, 2)) = 1
+// New
+_Outline3Saturation ("Saturation--{condition_show:(_Outline3SaturationMethod==1)}", Range(-1, 10)) = 0
+_Outline3Brightness ("Brightness--{condition_show:(_Outline3SaturationMethod==1)}", Range(-1, 2)) = 0
+
+_Outline3Gamma ("Gamma", Range(0.01, 2)) = 1
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3ColorAdjustMaskChannel ("Color Adjust Mask", Float) = 4
+[HideInInspector] s_end_OutlineColorAdjustLayer3 ("Color Adjust", Float) = 0
+
+[HideInInspector] s_start_OutlineAlphaDistanceFadeLayer3 ("Distance Alpha--{reference_property:_Outline3AlphaDistanceFade,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)] _Outline3AlphaDistanceFade ("Distance Alpha", Float) = 0
+[Enum(Object Position, 0, Pixel Position, 1)] _Outline3AlphaDistanceFadeType ("Pos To Use", Int) = 1
+_Outline3AlphaDistanceFadeMinAlpha ("Min Distance Alpha", Range(0, 1)) = 0
+_Outline3AlphaDistanceFadeMaxAlpha ("Max Distance Alpha", Range(0, 1)) = 1
+_Outline3AlphaDistanceFadeMin ("Min Distance", Float) = 0
+_Outline3AlphaDistanceFadeMax ("Max Distance", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3DistanceFadeMaskChannel ("Distance Fade Mask", Float) = 4
+[HideInInspector] s_end_OutlineAlphaDistanceFadeLayer3 ("Distance Alpha", Float) = 0
+
+[HideInInspector] s_start_OutlineFixedSizeLayer3 ("Fixed Size Over Distance--{reference_property:_Outline3FixedSize,persistent_expand:true,default_expand:false}", Float) = 0
+[HideInInspector][ThryToggleUI(true)]_Outline3FixedSize ("Fixed Size", Float) = 1
+_Outline3FixWidth ("Fixed Width ", Range(0, 1)) = .5
+_Outline3MaxDistance ("Fixed Size Max Distance", Float) = 1
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3FixedSizeMaskChannel ("Fixed Size Mask", Float) = 4
+[HideInInspector] s_end_OutlineFixedSizeLayer3 ("Color Adjust", Float) = 0
+
+[HideInInspector] s_start_OutlineLightingLayer3 ("Lighting--{reference_property:_Outline3Lit,persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI]_Outline3Lit ("Enable Lighting", Float) = 1
+_Outline3ShadowStrength ("Shadow Strength", Range(0, 1)) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3LightingMaskChannel ("Lighting Mask", Float) = 4
+[HideInInspector] s_end_OutlineLightingLayer3 ("Lighting", Float) = 0
+
+[HideInInspector] s_start_VertexColorsLayer3 ("Vertex Colors--{persistent_expand:true,default_expand:false}", Float) = 0
+[ToggleUI]_Outline3UseVertexColorNormals ("Vertex Color Normals", Float) = 0
+[Enum(Off, 0, R, 1, G, 2, B, 3, A, 4)]_Outline3VertexColorMask ("Vertex Color Mask", Float) = 0
+_Outline3VertexColorMaskStrength ("VC Mask Strength--{condition_showS:(_Outline3VertexColorMask!=0)}", Range(0, 1)) = 1
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3VertexColorMaskChannel ("VC Mask", Float) = 4
+[HideInInspector] s_end_VertexColorsLayer3 ("Vertex Colors", Float) = 0
+
+[HideInInspector] s_start_OutlineAudioLinkLayer3 ("Audio Link ♫--{ condition_showS:_EnableAudioLink==1,persistent_expand:true,default_expand:false}", Float) = 0
+[Enum(Off, 4, R, 0, G, 1, B, 2, A, 3)]_Outline3AudioLinkMaskChannel ("Audio Link Mask", Float) = 4
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline3SizeBand ("Size Band", Int) = 0
+[VectorLabel(Min, Max)]_AudioLinkOutline3Size ("Size Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline3EmissionBand ("Emission Band", Int) = 0
+[VectorLabel(Min, Max)]_AudioLinkOutline3Emission ("Emission Mod", Vector) = (0, 0, 0, 0)
+[ThrySeperator(2, 2, 2)]
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline3HighlightEmissionBand ("Highlight Emission Band--{condition_showS:(_Outline3HighlightEnabled==1)}", Int) = 0
+[VectorLabel(Min, Max)]_AudioLinkOutline3HighlightEmission ("Highlight Emission Mod--{condition_showS:(_Outline3HighlightEnabled==1)}", Vector) = (0, 0, 0, 0)
+
+[HideInInspector] ss_start_outline_al_colorLayer3 ("Color Override--{reference_property:_Outline3ALColorEnabled,persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI]_Outline3ALColorEnabled ("Enable", Float) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline3ColorBand ("Band", Int) = 0
+_AudioLinkOutline3Color ("Color", Color) = (1, 1, 1, 1)
+[ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _AudioLinkOutline3ColorThemeIndex ("Theme Color", Int) = 0
+[Ramp4(normalized)]_AudioLinkOutline3ColorRamp ("Color Override Ramp", Vector) = (0, 1, 0, 1)
+[HideInInspector] ss_end_outline_al_colorLayer3 ("Color Override--{draw_border:true}", Float) = 0
+
+[HideInInspector] ss_start_outline_al_highlight_colorLayer3 ("Highlight Color Override--{reference_property:_Outline3HighlightALColorEnabled,condition_showS:(_Outline3HighlightEnabled==1),persistent_expand:true,default_expand:false}", Float) = 0
+[ThryHideInInspector][ToggleUI]_Outline3HighlightALColorEnabled ("Enable", Float) = 0
+[Enum(Bass, 0, Low Mid, 1, High Mid, 2, Treble, 3, Volume, 4)] _AudioLinkOutline3HighlightColorBand ("Band", Int) = 0
+_AudioLinkOutline3HighlightColor ("Color", Color) = (1, 1, 1, 1)
+[ThryWideEnum(Off, 0, Theme Color 0, 1, Theme Color 1, 2, Theme Color 2, 3, Theme Color 3, 4, ColorChord 0, 5, ColorChord 1, 6, ColorChord 2, 7, ColorChord 3, 8, AL Theme 0, 9, AL Theme 1, 10, AL Theme 2, 11, AL Theme 3, 12)] _AudioLinkOutline3HighlightColorThemeIndex ("Theme Color", Int) = 0
+[Ramp4(normalized)]_AudioLinkOutline3HighlightColorRamp ("Color Override Ramp", Vector) = (0, 1, 0, 1)
+[HideInInspector] ss_end_outline_al_highlight_colorLayer3 ("Highlight Color Override--{draw_border:true}", Float) = 0
+
+[HideInInspector] s_end_OutlineAudioLinkLayer3 ("Audio Link", Float) = 0
+
+[HideInInspector] s_start_OutlineLayerRenderingLayer3 ("Layer Rendering Options", Float) = 0
+[ToggleUI]_Outline3ClipAtZeroWidth ("Clip 0 Width", Float) = 1
+[ToggleUI]_Outline3OverrideAlpha ("Override Base Alpha", Float) = 0
+[HideInInspector] s_start_OutlineZOffsetLayer3 ("Outline Z Offset--{persistent_expand:true,default_expand:false}", Float) = 0
+_Offset_Z3 ("Overall Strength", Float) = 0
+[ThrySeperator(2, 2, 2)]
+[Enum(R, 0, G, 1, B, 2, A, 3)]_Outline3ZOffsetChannel ("Z Offset Mask", Float) = 0
+_Outline3ZOffsetMaskStrength ("Mask Strength", Range(0, 1)) = 1
+[ToggleUI]_Outline3ZOffsetInvertMaskChannel ("Invert Mask", Float) = 0
+[ThrySeperator(2, 2, 2)]
+[Enum(Off, 0, R, 1, G, 2, B, 3, A, 4)]_Outline3ZOffsetVertexColor ("Vertex Color Channel", Float) = 0
+_Outline3ZOffsetVertexColorStrength ("Vertex Color Strength", Range(0, 1)) = 1
+[HideInInspector] s_end_OutlineZOffsetLayer3 ("", Float) = 0
+[HideInInspector] s_end_OutlineLayerRenderingLayer3 ("Layer Rendering Options", Float) = 0
+
+[HideInInspector] s_end_OutlineLayer3 ("Layer 3", Float) = 0
+
+#T#PoiTripleOutlineVariablesExposed
+#ifdef POI_TRIPLE_OUTLINE
+// Layer 1 mask channels
+float _OutlineColorMaskChannel;
+float _OutlineAlphaMaskChannel;
+float _OutlineEmissionMaskChannel;
+float _OutlineTextureBlendMaskChannel;
+float _OutlineHighlightMaskChannel;
+float _OutlineColorAdjustMaskChannel;
+float _OutlineDistanceFadeMaskChannel;
+float _OutlineFixedSizeMaskChannel;
+float _OutlineLightingMaskChannel;
+float _OutlineVertexColorMaskChannel;
+float _OutlineAudioLinkMaskChannel;
+
+// Layer 2
+// Size
+float _Outline2Width;
+float _Outline2MaskChannel;
+// Color
+half4 _Outline2Color;
+float _Outline2ColorThemeIndex;
+float _Outline2ColorMaskChannel;
+float _Outline2AlphaMaskChannel;
+half _Outline2Emission;
+float _Outline2EmissionMaskChannel;
+float _Outline2EdgeFade;
+// Expansion
+float _Outline2ExpansionMode;
+float _Outline2Space;
+half _Outline2RimLightBlend;
+float4 _Outline2PersonaDirection;
+float4 _Outline2DropShadowOffset;
+// Texture
+float4 _Outline2Texture_ST;
+float2 _Outline2TexturePan;
+float _Outline2TextureUV;
+half _Outline2TintMix;
+float _PoiUTSStyleOutlineBlend2;
+float _Outline2TextureBlendMaskChannel;
+// Highlight
+float _Outline2HighlightEnabled;
+half4 _Outline2HighlightColor;
+float _Outline2HighlightColorThemeIndex;
+half _Outline2HighlightEmission;
+float _Outline2HighlightApplyTex;
+half _Outline2HighlightBorder;
+half _Outline2HighlightBlur;
+float _Outline2HighlightReceiveShadow;
+float _Outline2HighlightMaskChannel;
+// Color Adjust
+float _Outline2HueShift;
+half _Outline2HueShiftColorSpace;
+float _Outline2HueOffsetSpeed;
+half _Outline2HueOffset;
+half _Outline2Hue;
+half _Outline2SaturationMethod;
+half _Outline2Saturation;
+half _Outline2Value;
+half _Outline2Brightness;
+half _Outline2Gamma;
+float _Outline2ColorAdjustMaskChannel;
+// Distance Alpha
+float _Outline2AlphaDistanceFade;
+float _Outline2AlphaDistanceFadeType;
+half _Outline2AlphaDistanceFadeMinAlpha;
+half _Outline2AlphaDistanceFadeMaxAlpha;
+float _Outline2AlphaDistanceFadeMin;
+float _Outline2AlphaDistanceFadeMax;
+float _Outline2DistanceFadeMaskChannel;
+// Fixed Size Over Distance
+float _Outline2FixedSize;
+float _Outline2FixWidth;
+float _Outline2MaxDistance;
+float _Outline2FixedSizeMaskChannel;
+// Lighting
+float _Outline2Lit;
+half _Outline2ShadowStrength;
+float _Outline2LightingMaskChannel;
+// Vertex Colors
+float _Outline2UseVertexColorNormals;
+float _Outline2VertexColorMask;
+half _Outline2VertexColorMaskStrength;
+float _Outline2VertexColorMaskChannel;
+// Audio Link
+float _Outline2AudioLinkMaskChannel;
+float _AudioLinkOutline2SizeBand;
+float2 _AudioLinkOutline2Size;
+float _AudioLinkOutline2EmissionBand;
+half2 _AudioLinkOutline2Emission;
+float _AudioLinkOutline2HighlightEmissionBand;
+half2 _AudioLinkOutline2HighlightEmission;
+half _Outline2ALColorEnabled;
+float _AudioLinkOutline2ColorBand;
+half4 _AudioLinkOutline2Color;
+float _AudioLinkOutline2ColorThemeIndex;
+half4 _AudioLinkOutline2ColorRamp;
+half _Outline2HighlightALColorEnabled;
+float _AudioLinkOutline2HighlightColorBand;
+half4 _AudioLinkOutline2HighlightColor;
+float _AudioLinkOutline2HighlightColorThemeIndex;
+half4 _AudioLinkOutline2HighlightColorRamp;
+// Layer Rendering Options
+float _Outline2ClipAtZeroWidth;
+half _Outline2OverrideAlpha;
+float _Offset_Z2;
+float _Outline2ZOffsetChannel;
+half _Outline2ZOffsetMaskStrength;
+float _Outline2ZOffsetInvertMaskChannel;
+float _Outline2ZOffsetVertexColor;
+half _Outline2ZOffsetVertexColorStrength;
+
+// Layer 3
+// Size
+float _Outline3Width;
+float _Outline3MaskChannel;
+// Color
+half4 _Outline3Color;
+float _Outline3ColorThemeIndex;
+float _Outline3ColorMaskChannel;
+float _Outline3AlphaMaskChannel;
+half _Outline3Emission;
+float _Outline3EmissionMaskChannel;
+float _Outline3EdgeFade;
+// Expansion
+float _Outline3ExpansionMode;
+float _Outline3Space;
+half _Outline3RimLightBlend;
+float4 _Outline3PersonaDirection;
+float4 _Outline3DropShadowOffset;
+// Texture
+float4 _Outline3Texture_ST;
+float2 _Outline3TexturePan;
+float _Outline3TextureUV;
+half _Outline3TintMix;
+float _PoiUTSStyleOutlineBlend3;
+float _Outline3TextureBlendMaskChannel;
+// Highlight
+float _Outline3HighlightEnabled;
+half4 _Outline3HighlightColor;
+float _Outline3HighlightColorThemeIndex;
+half _Outline3HighlightEmission;
+float _Outline3HighlightApplyTex;
+half _Outline3HighlightBorder;
+half _Outline3HighlightBlur;
+float _Outline3HighlightReceiveShadow;
+float _Outline3HighlightMaskChannel;
+// Color Adjust
+float _Outline3HueShift;
+half _Outline3HueShiftColorSpace;
+float _Outline3HueOffsetSpeed;
+half _Outline3HueOffset;
+half _Outline3Hue;
+half _Outline3SaturationMethod;
+half _Outline3Saturation;
+half _Outline3Value;
+half _Outline3Brightness;
+half _Outline3Gamma;
+float _Outline3ColorAdjustMaskChannel;
+// Distance Alpha
+float _Outline3AlphaDistanceFade;
+float _Outline3AlphaDistanceFadeType;
+half _Outline3AlphaDistanceFadeMinAlpha;
+half _Outline3AlphaDistanceFadeMaxAlpha;
+float _Outline3AlphaDistanceFadeMin;
+float _Outline3AlphaDistanceFadeMax;
+float _Outline3DistanceFadeMaskChannel;
+// Fixed Size Over Distance
+float _Outline3FixedSize;
+float _Outline3FixWidth;
+float _Outline3MaxDistance;
+float _Outline3FixedSizeMaskChannel;
+// Lighting
+float _Outline3Lit;
+half _Outline3ShadowStrength;
+float _Outline3LightingMaskChannel;
+// Vertex Colors
+float _Outline3UseVertexColorNormals;
+float _Outline3VertexColorMask;
+half _Outline3VertexColorMaskStrength;
+float _Outline3VertexColorMaskChannel;
+// Audio Link
+float _Outline3AudioLinkMaskChannel;
+float _AudioLinkOutline3SizeBand;
+float2 _AudioLinkOutline3Size;
+float _AudioLinkOutline3EmissionBand;
+half2 _AudioLinkOutline3Emission;
+float _AudioLinkOutline3HighlightEmissionBand;
+half2 _AudioLinkOutline3HighlightEmission;
+half _Outline3ALColorEnabled;
+float _AudioLinkOutline3ColorBand;
+half4 _AudioLinkOutline3Color;
+float _AudioLinkOutline3ColorThemeIndex;
+half4 _AudioLinkOutline3ColorRamp;
+half _Outline3HighlightALColorEnabled;
+float _AudioLinkOutline3HighlightColorBand;
+half4 _AudioLinkOutline3HighlightColor;
+float _AudioLinkOutline3HighlightColorThemeIndex;
+half4 _AudioLinkOutline3HighlightColorRamp;
+// Layer Rendering Options
+float _Outline3ClipAtZeroWidth;
+half _Outline3OverrideAlpha;
+float _Offset_Z3;
+float _Outline3ZOffsetChannel;
+half _Outline3ZOffsetMaskStrength;
+float _Outline3ZOffsetInvertMaskChannel;
+float _Outline3ZOffsetVertexColor;
+half _Outline3ZOffsetVertexColorStrength;
+#endif
+
+#T#PoiTripleOutlineVariables
+#ifdef POI_TRIPLE_OUTLINE
+// Size
+#define POI_LineWidth(layer) ((layer) == 1 ? _Outline2Width : ((layer) == 2 ? _Outline3Width : _LineWidth))
+#define POI_OutlineMaskChannel(layer) ((layer) == 1 ? _Outline2MaskChannel : ((layer) == 2 ? _Outline3MaskChannel : _OutlineMaskChannel))
+// Color
+#define POI_LineColor(layer) ((layer) == 1 ? _Outline2Color : ((layer) == 2 ? _Outline3Color : _LineColor))
+#define POI_LineColorThemeIndex(layer) ((layer) == 1 ? _Outline2ColorThemeIndex : ((layer) == 2 ? _Outline3ColorThemeIndex : _LineColorThemeIndex))
+#define POI_OutlineColorMaskChannel(layer) ((layer) == 1 ? _Outline2ColorMaskChannel : ((layer) == 2 ? _Outline3ColorMaskChannel : _OutlineColorMaskChannel))
+#define POI_OutlineAlphaMaskChannel(layer) ((layer) == 1 ? _Outline2AlphaMaskChannel : ((layer) == 2 ? _Outline3AlphaMaskChannel : _OutlineAlphaMaskChannel))
+#define POI_OutlineEmission(layer) ((layer) == 1 ? _Outline2Emission : ((layer) == 2 ? _Outline3Emission : _OutlineEmission))
+#define POI_OutlineEmissionMaskChannel(layer) ((layer) == 1 ? _Outline2EmissionMaskChannel : ((layer) == 2 ? _Outline3EmissionMaskChannel : _OutlineEmissionMaskChannel))
+#define POI_OutlineEdgeFade(layer) ((layer) == 1 ? _Outline2EdgeFade : ((layer) == 2 ? _Outline3EdgeFade : _OutlineEdgeFade))
+// Expansion
+#define POI_OutlineExpansionMode(layer) ((layer) == 1 ? _Outline2ExpansionMode : ((layer) == 2 ? _Outline3ExpansionMode : _OutlineExpansionMode))
+#define POI_OutlineSpace(layer) ((layer) == 1 ? _Outline2Space : ((layer) == 2 ? _Outline3Space : _OutlineSpace))
+#define POI_OutlineRimLightBlend(layer) ((layer) == 1 ? _Outline2RimLightBlend : ((layer) == 2 ? _Outline3RimLightBlend : _OutlineRimLightBlend))
+#define POI_OutlinePersonaDirection(layer) ((layer) == 1 ? _Outline2PersonaDirection : ((layer) == 2 ? _Outline3PersonaDirection : _OutlinePersonaDirection))
+#define POI_OutlineDropShadowOffset(layer) ((layer) == 1 ? _Outline2DropShadowOffset : ((layer) == 2 ? _Outline3DropShadowOffset : _OutlineDropShadowOffset))
+// Texture
+#define POI_OutlineTexture_ST(layer) ((layer) == 1 ? _Outline2Texture_ST : ((layer) == 2 ? _Outline3Texture_ST : _OutlineTexture_ST))
+#define POI_OutlineTexturePan(layer) ((layer) == 1 ? _Outline2TexturePan : ((layer) == 2 ? _Outline3TexturePan : _OutlineTexturePan))
+#define POI_OutlineTextureUV(layer) ((layer) == 1 ? _Outline2TextureUV : ((layer) == 2 ? _Outline3TextureUV : _OutlineTextureUV))
+#define POI_OutlineTintMix(layer) ((layer) == 1 ? _Outline2TintMix : ((layer) == 2 ? _Outline3TintMix : _OutlineTintMix))
+#define POI_PoiUTSStyleOutlineBlend(layer) ((layer) == 1 ? _PoiUTSStyleOutlineBlend2 : ((layer) == 2 ? _PoiUTSStyleOutlineBlend3 : _PoiUTSStyleOutlineBlend))
+#define POI_OutlineTextureBlendMaskChannel(layer) ((layer) == 1 ? _Outline2TextureBlendMaskChannel : ((layer) == 2 ? _Outline3TextureBlendMaskChannel : _OutlineTextureBlendMaskChannel))
+// Highlight
+#define POI_OutlineHighlightEnabled(layer) ((layer) == 1 ? _Outline2HighlightEnabled : ((layer) == 2 ? _Outline3HighlightEnabled : _OutlineHighlightEnabled))
+#define POI_OutlineHighlightColor(layer) ((layer) == 1 ? _Outline2HighlightColor : ((layer) == 2 ? _Outline3HighlightColor : _OutlineHighlightColor))
+#define POI_OutlineHighlightColorThemeIndex(layer) ((layer) == 1 ? _Outline2HighlightColorThemeIndex : ((layer) == 2 ? _Outline3HighlightColorThemeIndex : _OutlineHighlightColorThemeIndex))
+#define POI_OutlineHighlightEmission(layer) ((layer) == 1 ? _Outline2HighlightEmission : ((layer) == 2 ? _Outline3HighlightEmission : _OutlineHighlightEmission))
+#define POI_OutlineHighlightApplyTex(layer) ((layer) == 1 ? _Outline2HighlightApplyTex : ((layer) == 2 ? _Outline3HighlightApplyTex : _OutlineHighlightApplyTex))
+#define POI_OutlineHighlightBorder(layer) ((layer) == 1 ? _Outline2HighlightBorder : ((layer) == 2 ? _Outline3HighlightBorder : _OutlineHighlightBorder))
+#define POI_OutlineHighlightBlur(layer) ((layer) == 1 ? _Outline2HighlightBlur : ((layer) == 2 ? _Outline3HighlightBlur : _OutlineHighlightBlur))
+#define POI_OutlineHighlightReceiveShadow(layer) ((layer) == 1 ? _Outline2HighlightReceiveShadow : ((layer) == 2 ? _Outline3HighlightReceiveShadow : _OutlineHighlightReceiveShadow))
+#define POI_OutlineHighlightMaskChannel(layer) ((layer) == 1 ? _Outline2HighlightMaskChannel : ((layer) == 2 ? _Outline3HighlightMaskChannel : _OutlineHighlightMaskChannel))
+// Color Adjust
+#define POI_OutlineHueShift(layer) ((layer) == 1 ? _Outline2HueShift : ((layer) == 2 ? _Outline3HueShift : _OutlineHueShift))
+#define POI_OutlineHueShiftColorSpace(layer) ((layer) == 1 ? _Outline2HueShiftColorSpace : ((layer) == 2 ? _Outline3HueShiftColorSpace : _OutlineHueShiftColorSpace))
+#define POI_OutlineHueOffsetSpeed(layer) ((layer) == 1 ? _Outline2HueOffsetSpeed : ((layer) == 2 ? _Outline3HueOffsetSpeed : _OutlineHueOffsetSpeed))
+#define POI_OutlineHueOffset(layer) ((layer) == 1 ? _Outline2HueOffset : ((layer) == 2 ? _Outline3HueOffset : _OutlineHueOffset))
+#define POI_OutlineHue(layer) ((layer) == 1 ? _Outline2Hue : ((layer) == 2 ? _Outline3Hue : _OutlineHue))
+#define POI_OutlineSaturationMethod(layer) ((layer) == 1 ? _Outline2SaturationMethod : ((layer) == 2 ? _Outline3SaturationMethod : _OutlineSaturationMethod))
+#define POI_OutlineSaturation(layer) ((layer) == 1 ? _Outline2Saturation : ((layer) == 2 ? _Outline3Saturation : _OutlineSaturation))
+#define POI_OutlineValue(layer) ((layer) == 1 ? _Outline2Value : ((layer) == 2 ? _Outline3Value : _OutlineValue))
+#define POI_OutlineBrightness(layer) ((layer) == 1 ? _Outline2Brightness : ((layer) == 2 ? _Outline3Brightness : _OutlineBrightness))
+#define POI_OutlineGamma(layer) ((layer) == 1 ? _Outline2Gamma : ((layer) == 2 ? _Outline3Gamma : _OutlineGamma))
+#define POI_OutlineColorAdjustMaskChannel(layer) ((layer) == 1 ? _Outline2ColorAdjustMaskChannel : ((layer) == 2 ? _Outline3ColorAdjustMaskChannel : _OutlineColorAdjustMaskChannel))
+// Distance Alpha
+#define POI_OutlineAlphaDistanceFade(layer) ((layer) == 1 ? _Outline2AlphaDistanceFade : ((layer) == 2 ? _Outline3AlphaDistanceFade : _OutlineAlphaDistanceFade))
+#define POI_OutlineAlphaDistanceFadeType(layer) ((layer) == 1 ? _Outline2AlphaDistanceFadeType : ((layer) == 2 ? _Outline3AlphaDistanceFadeType : _OutlineAlphaDistanceFadeType))
+#define POI_OutlineAlphaDistanceFadeMinAlpha(layer) ((layer) == 1 ? _Outline2AlphaDistanceFadeMinAlpha : ((layer) == 2 ? _Outline3AlphaDistanceFadeMinAlpha : _OutlineAlphaDistanceFadeMinAlpha))
+#define POI_OutlineAlphaDistanceFadeMaxAlpha(layer) ((layer) == 1 ? _Outline2AlphaDistanceFadeMaxAlpha : ((layer) == 2 ? _Outline3AlphaDistanceFadeMaxAlpha : _OutlineAlphaDistanceFadeMaxAlpha))
+#define POI_OutlineAlphaDistanceFadeMin(layer) ((layer) == 1 ? _Outline2AlphaDistanceFadeMin : ((layer) == 2 ? _Outline3AlphaDistanceFadeMin : _OutlineAlphaDistanceFadeMin))
+#define POI_OutlineAlphaDistanceFadeMax(layer) ((layer) == 1 ? _Outline2AlphaDistanceFadeMax : ((layer) == 2 ? _Outline3AlphaDistanceFadeMax : _OutlineAlphaDistanceFadeMax))
+#define POI_OutlineDistanceFadeMaskChannel(layer) ((layer) == 1 ? _Outline2DistanceFadeMaskChannel : ((layer) == 2 ? _Outline3DistanceFadeMaskChannel : _OutlineDistanceFadeMaskChannel))
+// Fixed Size Over Distance
+#define POI_OutlineFixedSize(layer) ((layer) == 1 ? _Outline2FixedSize : ((layer) == 2 ? _Outline3FixedSize : _OutlineFixedSize))
+#define POI_OutlineFixWidth(layer) ((layer) == 1 ? _Outline2FixWidth : ((layer) == 2 ? _Outline3FixWidth : _OutlineFixWidth))
+#define POI_OutlinesMaxDistance(layer) ((layer) == 1 ? _Outline2MaxDistance : ((layer) == 2 ? _Outline3MaxDistance : _OutlinesMaxDistance))
+#define POI_OutlineFixedSizeMaskChannel(layer) ((layer) == 1 ? _Outline2FixedSizeMaskChannel : ((layer) == 2 ? _Outline3FixedSizeMaskChannel : _OutlineFixedSizeMaskChannel))
+// Lighting
+#define POI_OutlineLit(layer) ((layer) == 1 ? _Outline2Lit : ((layer) == 2 ? _Outline3Lit : _OutlineLit))
+#define POI_OutlineShadowStrength(layer) ((layer) == 1 ? _Outline2ShadowStrength : ((layer) == 2 ? _Outline3ShadowStrength : _OutlineShadowStrength))
+#define POI_OutlineLightingMaskChannel(layer) ((layer) == 1 ? _Outline2LightingMaskChannel : ((layer) == 2 ? _Outline3LightingMaskChannel : _OutlineLightingMaskChannel))
+// Vertex Colors
+#define POI_OutlineUseVertexColorNormals(layer) ((layer) == 1 ? _Outline2UseVertexColorNormals : ((layer) == 2 ? _Outline3UseVertexColorNormals : _OutlineUseVertexColorNormals))
+#define POI_OutlineVertexColorMask(layer) ((layer) == 1 ? _Outline2VertexColorMask : ((layer) == 2 ? _Outline3VertexColorMask : _OutlineVertexColorMask))
+#define POI_OutlineVertexColorMaskStrength(layer) ((layer) == 1 ? _Outline2VertexColorMaskStrength : ((layer) == 2 ? _Outline3VertexColorMaskStrength : _OutlineVertexColorMaskStrength))
+#define POI_OutlineVertexColorMaskChannel(layer) ((layer) == 1 ? _Outline2VertexColorMaskChannel : ((layer) == 2 ? _Outline3VertexColorMaskChannel : _OutlineVertexColorMaskChannel))
+// Audio Link
+#define POI_OutlineAudioLinkMaskChannel(layer) ((layer) == 1 ? _Outline2AudioLinkMaskChannel : ((layer) == 2 ? _Outline3AudioLinkMaskChannel : _OutlineAudioLinkMaskChannel))
+#define POI_AudioLinkOutlineSizeBand(layer) ((layer) == 1 ? _AudioLinkOutline2SizeBand : ((layer) == 2 ? _AudioLinkOutline3SizeBand : _AudioLinkOutlineSizeBand))
+#define POI_AudioLinkOutlineSize(layer) ((layer) == 1 ? _AudioLinkOutline2Size : ((layer) == 2 ? _AudioLinkOutline3Size : _AudioLinkOutlineSize))
+#define POI_AudioLinkOutlineEmissionBand(layer) ((layer) == 1 ? _AudioLinkOutline2EmissionBand : ((layer) == 2 ? _AudioLinkOutline3EmissionBand : _AudioLinkOutlineEmissionBand))
+#define POI_AudioLinkOutlineEmission(layer) ((layer) == 1 ? _AudioLinkOutline2Emission : ((layer) == 2 ? _AudioLinkOutline3Emission : _AudioLinkOutlineEmission))
+#define POI_AudioLinkOutlineHighlightEmissionBand(layer) ((layer) == 1 ? _AudioLinkOutline2HighlightEmissionBand : ((layer) == 2 ? _AudioLinkOutline3HighlightEmissionBand : _AudioLinkOutlineHighlightEmissionBand))
+#define POI_AudioLinkOutlineHighlightEmission(layer) ((layer) == 1 ? _AudioLinkOutline2HighlightEmission : ((layer) == 2 ? _AudioLinkOutline3HighlightEmission : _AudioLinkOutlineHighlightEmission))
+#define POI_OutlineALColorEnabled(layer) ((layer) == 1 ? _Outline2ALColorEnabled : ((layer) == 2 ? _Outline3ALColorEnabled : _OutlineALColorEnabled))
+#define POI_AudioLinkOutlineColorBand(layer) ((layer) == 1 ? _AudioLinkOutline2ColorBand : ((layer) == 2 ? _AudioLinkOutline3ColorBand : _AudioLinkOutlineColorBand))
+#define POI_AudioLinkOutlineColor(layer) ((layer) == 1 ? _AudioLinkOutline2Color : ((layer) == 2 ? _AudioLinkOutline3Color : _AudioLinkOutlineColor))
+#define POI_AudioLinkOutlineColorThemeIndex(layer) ((layer) == 1 ? _AudioLinkOutline2ColorThemeIndex : ((layer) == 2 ? _AudioLinkOutline3ColorThemeIndex : _AudioLinkOutlineColorThemeIndex))
+#define POI_AudioLinkOutlineColorRamp(layer) ((layer) == 1 ? _AudioLinkOutline2ColorRamp : ((layer) == 2 ? _AudioLinkOutline3ColorRamp : _AudioLinkOutlineColorRamp))
+#define POI_OutlineHighlightALColorEnabled(layer) ((layer) == 1 ? _Outline2HighlightALColorEnabled : ((layer) == 2 ? _Outline3HighlightALColorEnabled : _OutlineHighlightALColorEnabled))
+#define POI_AudioLinkOutlineHighlightColorBand(layer) ((layer) == 1 ? _AudioLinkOutline2HighlightColorBand : ((layer) == 2 ? _AudioLinkOutline3HighlightColorBand : _AudioLinkOutlineHighlightColorBand))
+#define POI_AudioLinkOutlineHighlightColor(layer) ((layer) == 1 ? _AudioLinkOutline2HighlightColor : ((layer) == 2 ? _AudioLinkOutline3HighlightColor : _AudioLinkOutlineHighlightColor))
+#define POI_AudioLinkOutlineHighlightColorThemeIndex(layer) ((layer) == 1 ? _AudioLinkOutline2HighlightColorThemeIndex : ((layer) == 2 ? _AudioLinkOutline3HighlightColorThemeIndex : _AudioLinkOutlineHighlightColorThemeIndex))
+#define POI_AudioLinkOutlineHighlightColorRamp(layer) ((layer) == 1 ? _AudioLinkOutline2HighlightColorRamp : ((layer) == 2 ? _AudioLinkOutline3HighlightColorRamp : _AudioLinkOutlineHighlightColorRamp))
+// Layer Rendering Options
+#define POI_OutlineClipAtZeroWidth(layer) ((layer) == 1 ? _Outline2ClipAtZeroWidth : ((layer) == 2 ? _Outline3ClipAtZeroWidth : _OutlineClipAtZeroWidth))
+#define POI_OutlineOverrideAlpha(layer) ((layer) == 1 ? _Outline2OverrideAlpha : ((layer) == 2 ? _Outline3OverrideAlpha : _OutlineOverrideAlpha))
+#define POI_Offset_Z(layer) ((layer) == 1 ? _Offset_Z2 : ((layer) == 2 ? _Offset_Z3 : _Offset_Z))
+#define POI_OutlineZOffsetChannel(layer) ((layer) == 1 ? _Outline2ZOffsetChannel : ((layer) == 2 ? _Outline3ZOffsetChannel : _OutlineZOffsetChannel))
+#define POI_OutlineZOffsetMaskStrength(layer) ((layer) == 1 ? _Outline2ZOffsetMaskStrength : ((layer) == 2 ? _Outline3ZOffsetMaskStrength : _OutlineZOffsetMaskStrength))
+#define POI_OutlineZOffsetInvertMaskChannel(layer) ((layer) == 1 ? _Outline2ZOffsetInvertMaskChannel : ((layer) == 2 ? _Outline3ZOffsetInvertMaskChannel : _OutlineZOffsetInvertMaskChannel))
+#define POI_OutlineZOffsetVertexColor(layer) ((layer) == 1 ? _Outline2ZOffsetVertexColor : ((layer) == 2 ? _Outline3ZOffsetVertexColor : _OutlineZOffsetVertexColor))
+#define POI_OutlineZOffsetVertexColorStrength(layer) ((layer) == 1 ? _Outline2ZOffsetVertexColorStrength : ((layer) == 2 ? _Outline3ZOffsetVertexColorStrength : _OutlineZOffsetVertexColorStrength))
+#endif
+
+#T#PoiTripleOutlineVertexData
+#ifdef POI_TRIPLE_OUTLINE
+nointerpolation uint poiOutlineLayer : TEXCOORD15;
+#endif
+
+#T#PoiTripleOutlinePrograms
+#K#VERTEX_OUTLINE_DATA_STRUCTURES
+#K#VERTEX_OUTLINE_FUNCTIONS_EARLY
+#K#VERTEX_OUTLINE_FUNCTIONS
+#K#VERTEX_OUTLINE_FUNCTIONS_LATE
+#K#VERTEX_OUTLINE_PROGRAM
+
+// Relay SV_VertexID through a user semantic to preserve vertex-ID effects.
+struct PoiTripleOutlineInput
+{
+    float4 vertex : SV_POSITION;
+    float3 normal : NORMAL;
+    float4 tangent : TANGENT;
+    half4 color : COLOR;
+    float2 uv0 : TEXCOORD0;
+    float2 uv1 : TEXCOORD1;
+    float2 uv2 : TEXCOORD2;
+    float2 uv3 : TEXCOORD3;
+    nointerpolation uint vertexId : TEXCOORD4;
+    #ifdef POI_RAYMARCHING_DATA
+    float4 poiBindPosition : TEXCOORD5;
+    half4 poiBindNormal : TEXCOORD6;
+    half4 poiBindTangent : TEXCOORD7;
+    #endif
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+};
+
+PoiTripleOutlineInput poiTripleOutlineVert(appdata v)
+{
+    PoiTripleOutlineInput o;
+    PoiInitStruct(PoiTripleOutlineInput, o);
+    UNITY_SETUP_INSTANCE_ID(v);
+    UNITY_TRANSFER_INSTANCE_ID(v, o);
+    o.vertex = v.vertex;
+    o.normal = v.normal;
+    o.tangent = v.tangent;
+    o.color = v.color;
+    o.uv0 = v.uv0;
+    o.uv1 = v.uv1;
+    o.uv2 = v.uv2;
+    o.uv3 = v.uv3;
+    o.vertexId = v.vertexId;
+    #ifdef POI_RAYMARCHING_DATA
+    o.poiBindPosition = v.poiBindPosition;
+    o.poiBindNormal = v.poiBindNormal;
+    o.poiBindTangent = v.poiBindTangent;
+    #endif
+    return o;
+}
+
+[maxvertexcount(9)]
+void poiTripleOutlineGeom(triangle PoiTripleOutlineInput input[3], inout TriangleStream<VertexOut> outStream)
+{
+    UNITY_SETUP_INSTANCE_ID(input[0]);
+    if (_EnableOutlines < 0.5 || _EnableOutlinesRenderFeature > 0.5)
+        return;
+
+    [unroll]
+    for (int layer = 2; layer >= 0; --layer)
+    {
+        [unroll]
+        for (int corner = 0; corner < 3; ++corner)
+        {
+            appdata v;
+            PoiInitStruct(appdata, v);
+            UNITY_TRANSFER_INSTANCE_ID(input[corner], v);
+            v.vertex = input[corner].vertex;
+            v.normal = input[corner].normal;
+            v.tangent = input[corner].tangent;
+            v.color = input[corner].color;
+            v.uv0 = input[corner].uv0;
+            v.uv1 = input[corner].uv1;
+            v.uv2 = input[corner].uv2;
+            v.uv3 = input[corner].uv3;
+            v.vertexId = input[corner].vertexId;
+            #ifdef POI_RAYMARCHING_DATA
+            v.poiBindPosition = input[corner].poiBindPosition;
+            v.poiBindNormal = input[corner].poiBindNormal;
+            v.poiBindTangent = input[corner].poiBindTangent;
+            #endif
+            VertexOut o = vert(v, (uint)layer);
+            o.poiOutlineLayer = (uint)layer;
+            outStream.Append(o);
+        }
+        outStream.RestartStrip();
+    }
+}
+
+#K#FRAGMENT_OUTLINE_DATA_STRUCTURES
+#K#FRAGMENT_OUTLINE_FUNCTIONS_EARLY
+#K#FRAGMENT_OUTLINE_FUNCTIONS
+#K#FRAGMENT_OUTLINE_FUNCTIONS_LATE
+#K#FRAGMENT_OUTLINE_PROGRAM
